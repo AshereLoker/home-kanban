@@ -1,19 +1,54 @@
 name: home_challenge_kanban
 description: A new Flutter project.
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
 
 dependencies:
+  # State manager. 
+  bloc: ^8.1.1
+  # Local DataBase.
+  drift: ^2.5.0
+  # For better error handling.
+  either_dart: ^0.3.0
+  # Simple value equality overrider.
+  equatable: ^2.0.5
+  # Fast collections to optimization.
   flutter:
     sdk: flutter
+  # Find and works with locations for DB.
+  path: ^1.8.2
+  path_provider: ^2.0.12
+  # Local cache. 
+  shared_preferences: ^2.0.17
+  sqlite3_flutter_libs: ^0.5.12
+  # Unique id generator.
+  uuid: ^3.0.7
+  
 
 dev_dependencies:
+  # CLI to running code-generations.
+  build_runner: ^2.3.3
+  # Lint.
+  dart_code_metrics: ^5.6.0
+  # Support for drift
+  drift_dev: ^2.5.2
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  # Magic code-generators.
+  freezed: ^2.3.2
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.8.0
+  json_serializable: ^6.6.1
+  # Also lint.
+  lint: ^2.0.1
+  # Mocks for testing.
+  mockito: ^5.3.2
+  mocktail: ^0.3.0
+  
 
 flutter:
   uses-material-design: true
