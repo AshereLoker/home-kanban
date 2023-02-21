@@ -1,9 +1,11 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../test_kanban_constants.dart';
 import '../database/mock_kanban_database.mocks.dart';
 
 void main() {
@@ -15,27 +17,19 @@ void main() {
     dataSource = CrudKanbanLocalDataSourceImpl(database: mockDatabase);
   });
 
-  const tSuccessCode = 200;
-  const tName = 'test';
-  const tDescr = 'test';
-  const tKey = 'tKey';
-  const tKanbanModel = KanbanModel(
-    name: tName,
-    description: tDescr,
-    key: tKey,
-  );
-
   group('createKanban', () {
     test(
       'should return kanban from database when it successfuly created in database',
       () async {
         // arrange.
-        when(mockDatabase.createKanban(any, any))
-            .thenAnswer((_) async => tKanbanModel);
+        when(mockDatabase.createKanban(any))
+            .thenAnswer((_) async => tKanbanModelFullfilList);
         // act.
-        final result = await dataSource.createKanban(tName, tKey);
+        final result = await dataSource.createKanban(tCreateKanbanParams);
         // assert.
-        expect(result, equals(tKanbanModel));
+        expect(result, equals(tKanbanModelFullfilList));
+        verify(mockDatabase.createKanban(tCreateKanbanParams));
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
 
@@ -43,15 +37,17 @@ void main() {
       'should throw an Expection when creating in database unsuccessful',
       () async {
         // arrange.
-        when(mockDatabase.createKanban(any, any))
+        when(mockDatabase.createKanban(any))
             .thenThrow(LocalDatabaseException());
         // act.
         final call = dataSource.createKanban;
         // assert.
         expect(
-          () => call(tName, tDescr),
+          () => call(tCreateKanbanParams),
           throwsA(const TypeMatcher<LocalDatabaseException>()),
         );
+        verify(mockDatabase.createKanban(tCreateKanbanParams));
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
   });
@@ -62,11 +58,13 @@ void main() {
       () async {
         // arrange.
         when(mockDatabase.deleteKanban(any))
-            .thenAnswer((_) async => tSuccessCode);
+            .thenAnswer((_) async => tKanbanModelFullfilList);
         // act.
         final result = await dataSource.deleteKanban(tKey);
         // assert.
-        expect(result, tSuccessCode);
+        expect(result, tKanbanModelFullfilList);
+        verify(mockDatabase.deleteKanban(tKey));
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
 
@@ -83,37 +81,59 @@ void main() {
           () => call(tKey),
           throwsA(const TypeMatcher<LocalDatabaseException>()),
         );
+        verify(mockDatabase.deleteKanban(tKey));
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
   });
 
-  group('readKanban', () {
+  group('readAllKanbans', () {
+    const tKanbanEmptyList = IListConst<KanbanModel>([]);
+
     test(
-      'should return kanban from database when read in local database is successful',
+      'should return empty kanbans list when read all in local database is successful and find nothing',
       () async {
         // arrange.
-        when(mockDatabase.readKanbanByKey(any))
-            .thenAnswer((_) async => tKanbanModel);
+        when(mockDatabase.readAllKanbans())
+            .thenAnswer((_) async => tKanbanEmptyList);
         // act.
-        final result = await dataSource.readKanban(tKey);
+        final result = await dataSource.readAllKanbans();
         // assert.
-        expect(result, equals(tKanbanModel));
+        expect(result, equals(tKanbanEmptyList));
+        verify(mockDatabase.readAllKanbans());
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
 
     test(
-      'should throw an Expection when read in local database is unsuccessful',
+      'should return fullfil kanbans list when read all in database is succesful and kanbans is found',
       () async {
         // arrange.
-        when(mockDatabase.readKanbanByKey(any))
-            .thenThrow(LocalDatabaseException());
+        when(mockDatabase.readAllKanbans())
+            .thenAnswer((_) async => tKanbanModelFullfilList);
         // act.
-        final call = dataSource.readKanban;
+        final result = await dataSource.readAllKanbans();
+        // assert.
+        expect(result, equals(tKanbanModelFullfilList));
+        verify(mockDatabase.readAllKanbans());
+        verifyNoMoreInteractions(mockDatabase);
+      },
+    );
+
+    test(
+      'should throw an Exception when read all in database is unsuccessful',
+      () async {
+        // arrange.
+        when(mockDatabase.readAllKanbans()).thenThrow(LocalDatabaseException());
+        // act.
+        final call = dataSource.readAllKanbans;
         // assert.
         expect(
-          () => call(tKey),
+          () => call(),
           throwsA(const TypeMatcher<LocalDatabaseException>()),
         );
+        verify(mockDatabase.readAllKanbans());
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
   });
@@ -124,11 +144,13 @@ void main() {
       () async {
         // arrange.
         when(mockDatabase.updateKanban(any))
-            .thenAnswer((_) async => tKanbanModel);
+            .thenAnswer((_) async => tKanbanModelFullfilList);
         // act.
-        final result = await dataSource.updateKanban(tKanbanModel);
+        final result = await dataSource.updateKanban(tUpdateKanbanParams);
         // assert.
-        expect(result, equals(tKanbanModel));
+        expect(result, equals(tKanbanModelFullfilList));
+        verify(mockDatabase.updateKanban(tUpdateKanbanParams));
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
 
@@ -142,9 +164,11 @@ void main() {
         final call = dataSource.updateKanban;
         // assert.
         expect(
-          () => call(tKanbanModel),
+          () => call(tUpdateKanbanParams),
           throwsA(const TypeMatcher<LocalDatabaseException>()),
         );
+        verify(mockDatabase.updateKanban(tUpdateKanbanParams));
+        verifyNoMoreInteractions(mockDatabase);
       },
     );
   });

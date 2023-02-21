@@ -1,12 +1,13 @@
 import 'package:either_dart/either.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/update_kanban.dart';
 import 'package:mockito/mockito.dart';
 
-import 'crud_kanban_mock.mocks.dart';
+import '../../../test_kanban_constants.dart';
+import '../repository/crud_kanban_mock.mocks.dart';
 
 void main() {
   late UpdateKanban usecase;
@@ -17,26 +18,17 @@ void main() {
     usecase = UpdateKanban(mockKanbanEntityRepository);
   });
 
-  const tKey = 'tKey';
-  const tKanbanModel = KanbanModel(
-    name: 'newTest',
-    description: 'newTest',
-    key: tKey,
-  );
-
-  const Kanban tKanban = tKanbanModel;
-
   test(
     'should update kanban in repository',
     () async {
       // arrange.
-      when(mockKanbanEntityRepository.updateKanban(tKanbanModel))
-          .thenAnswer((_) async => const Right(tKanban));
+      when(mockKanbanEntityRepository.updateKanban(tUpdateKanbanParams))
+          .thenAnswer((_) async => Right(tKanbanFullfilList));
       // act.
-      final result = await usecase(tKanbanModel);
+      final result = await usecase(tUpdateKanbanParams);
       // assert.
-      expect(result, const Right<Failure, Kanban>(tKanban));
-      verify(mockKanbanEntityRepository.updateKanban(tKanbanModel));
+      expect(result, Right<Failure, IList<Kanban>>(tKanbanFullfilList));
+      verify(mockKanbanEntityRepository.updateKanban(tUpdateKanbanParams));
       verifyNoMoreInteractions(mockKanbanEntityRepository);
     },
   );

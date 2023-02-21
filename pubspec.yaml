@@ -7,34 +7,44 @@ environment:
   sdk: '>=2.19.2 <3.0.0'
 
 dependencies:
-  # State manager. 
-  bloc: ^8.1.1
   # Local DataBase.
+  drag_and_drop_lists: ^0.3.3
   drift: ^2.5.0
   # For better error handling.
+  drift_db_viewer: ^2.0.0
   either_dart: ^0.3.0
   # Simple value equality overrider.
   equatable: ^2.0.5
   # Fast collections to optimization.
+  fast_immutable_collections: ^8.2.0
   flutter:
     sdk: flutter
+  # State manager. 
+  flutter_bloc: ^8.1.2
+  # Dependency injection.
+  flutter_hooks: ^0.18.6
+  flutter_svg: ^2.0.1
+  get_it: ^7.2.0
   # Find and works with locations for DB.
   path: ^1.8.2
   path_provider: ^2.0.12
   # Local cache. 
   shared_preferences: ^2.0.17
+  sizer: ^2.0.15
   sqlite3_flutter_libs: ^0.5.12
   # Unique id generator.
   uuid: ^3.0.7
   
 
 dev_dependencies:
+  bloc_test: ^9.1.1
   # CLI to running code-generations.
   build_runner: ^2.3.3
   # Lint.
   dart_code_metrics: ^5.6.0
   # Support for drift
   drift_dev: ^2.5.2
+  flutter_asset_generator: ^1.0.2
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
@@ -50,5 +60,20 @@ dev_dependencies:
   mocktail: ^0.3.0
   
 
+
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/svg/
+    - fonts/grotte/
+
+fonts:
+    - family: Grotte
+      fonts: 
+        - asset: fonts/Grotte/Grotte-Light.ttf
+          weight: 300
+        - asset: fonts/Grotte/Grotte-Regular.ttf
+          weight: 400
+        - asset: fonts/Grotte/Grotte-Bold.ttf
+          weight: 700

@@ -1,0 +1,8 @@
+# Command to generate: fgen --no-watch -o lib/core/assets/kanban_assets.g.dart --no-preview -n KanbanAssets
+
+exclude:
+  - "do not remove"
+  - "this placeholder"
+
+include:
+  - "**/**"

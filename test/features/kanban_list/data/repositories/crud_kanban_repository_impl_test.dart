@@ -1,12 +1,13 @@
 import 'package:either_dart/either.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/repositories/crud_kanban_repository_impl.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../test_kanban_constants.dart';
 import '../datasources/mock_datasources.mocks.dart';
 
 void main() {
@@ -25,30 +26,22 @@ void main() {
   group(
     'local datasource',
     () {
-      // SetUp constants for future test in group.
-      const tSuccessCode = 200;
-      const tName = 'test';
-      const tDesc = 'test';
-      const tKey = 'tKey';
-      const tKanbanModel = KanbanModel(
-        key: tKey,
-        name: tName,
-        description: tDesc,
-      );
-      const Kanban tKanban = tKanbanModel;
-
       // Successful group test starts from here.
       test(
         'should return local data when create in local data source is successful',
         () async {
           // arrange.
-          when(mockLocalDatasource.createKanban(any, any))
-              .thenAnswer((_) async => tKanbanModel);
+          when(mockLocalDatasource.createKanban(any))
+              .thenAnswer((_) async => tKanbanModelFullfilList);
           // act.
-          final result = await repository.createKanban(tName, tDesc);
+          final result = await repository.createKanban(tCreateKanbanParams);
           // assert.
-          verify(mockLocalDatasource.createKanban(tName, tDesc));
-          expect(result, equals(const Right<Failure, Kanban>(tKanban)));
+          expect(
+            result,
+            equals(Right<Failure, IList<Kanban>>(tKanbanFullfilList)),
+          );
+          verify(mockLocalDatasource.createKanban(tCreateKanbanParams));
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
@@ -57,29 +50,31 @@ void main() {
         () async {
           // arrange.
           when(mockLocalDatasource.deleteKanban(any))
-              .thenAnswer((_) async => tSuccessCode);
+              .thenAnswer((_) async => tKanbanModelFullfilList);
           // act.
           final result = await repository.deleteKanban(tKey);
           // assert.
-          verify(mockLocalDatasource.deleteKanban(tKey));
           expect(
             result,
-            equals(const Right<Failure, int>(tSuccessCode)),
+            equals(Right<Failure, IList<Kanban>>(tKanbanFullfilList)),
           );
+          verify(mockLocalDatasource.deleteKanban(tKey));
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
       test(
-        'should return local data when read in local data source is successful',
+        'should return list of local data when read all in local data source is successful',
         () async {
           // arrange.
-          when(mockLocalDatasource.readKanban(any))
-              .thenAnswer((_) async => tKanbanModel);
+          when(mockLocalDatasource.readAllKanbans())
+              .thenAnswer((_) async => tKanbanModelFullfilList);
           // act.
-          final result = await repository.readKanban(tKey);
+          final result = await repository.readAllKanbans();
           // assert.
-          verify(mockLocalDatasource.readKanban(tKey));
-          expect(result, equals(const Right<Failure, Kanban>(tKanban)));
+          expect(result, Right<Failure, IList<Kanban>>(tKanbanFullfilList));
+          verify(mockLocalDatasource.readAllKanbans());
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
@@ -88,12 +83,16 @@ void main() {
         () async {
           // arrange.
           when(mockLocalDatasource.updateKanban(any))
-              .thenAnswer((_) async => tKanbanModel);
+              .thenAnswer((_) async => tKanbanModelFullfilList);
           // act.
-          final result = await repository.updateKanban(tKanbanModel);
+          final result = await repository.updateKanban(tUpdateKanbanParams);
           // assert.
-          verify(mockLocalDatasource.updateKanban(tKanbanModel));
-          expect(result, equals(const Right<Failure, Kanban>(tKanban)));
+          expect(
+            result,
+            equals(Right<Failure, IList<Kanban>>(tKanbanFullfilList)),
+          );
+          verify(mockLocalDatasource.updateKanban(tUpdateKanbanParams));
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
@@ -102,13 +101,14 @@ void main() {
         'should return local database failure when create in local data source is unsuccessful',
         () async {
           // arrange.
-          when(mockLocalDatasource.createKanban(any, any))
+          when(mockLocalDatasource.createKanban(any))
               .thenThrow(LocalDatabaseException());
           // act.
-          final result = await repository.createKanban(tName, tDesc);
+          final result = await repository.createKanban(tCreateKanbanParams);
           // assert.
-          verify(mockLocalDatasource.createKanban(tName, tDesc));
           expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          verify(mockLocalDatasource.createKanban(tCreateKanbanParams));
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
@@ -121,22 +121,24 @@ void main() {
           // act.
           final result = await repository.deleteKanban(tKey);
           // assert.
-          verify(mockLocalDatasource.deleteKanban(tKey));
           expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          verify(mockLocalDatasource.deleteKanban(tKey));
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
       test(
-        'should return local database failure when read in local data source is unsuccessful',
+        'should return local database failure when read all in local data source is unsuccessful',
         () async {
           // arrange.
-          when(mockLocalDatasource.readKanban(any))
+          when(mockLocalDatasource.readAllKanbans())
               .thenThrow(LocalDatabaseException());
           // act.
-          final result = await repository.readKanban(tKey);
+          final result = await repository.readAllKanbans();
           // assert.
-          verify(mockLocalDatasource.readKanban(tKey));
           expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          verify(mockLocalDatasource.readAllKanbans());
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
 
@@ -147,10 +149,11 @@ void main() {
           when(mockLocalDatasource.updateKanban(any))
               .thenThrow(LocalDatabaseException());
           // act.
-          final result = await repository.updateKanban(tKanbanModel);
+          final result = await repository.updateKanban(tUpdateKanbanParams);
           // assert.
-          verify(mockLocalDatasource.updateKanban(tKanbanModel));
           expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          verify(mockLocalDatasource.updateKanban(tUpdateKanbanParams));
+          verifyNoMoreInteractions(mockLocalDatasource);
         },
       );
     },

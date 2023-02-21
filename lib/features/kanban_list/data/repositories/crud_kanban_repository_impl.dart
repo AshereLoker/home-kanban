@@ -1,10 +1,11 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:either_dart/either.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/kanban_repository.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
 class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
   final CrudKanbanLocalDatasource localDatasource;
@@ -14,13 +15,11 @@ class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
   });
 
   @override
-  Future<Either<Failure, Kanban>> createKanban(
-    String name,
-    String? description,
+  Future<Either<Failure, IList<Kanban>>> createKanban(
+    CreateKanbanParams params,
   ) async {
     try {
-      final createdKanban =
-          await localDatasource.createKanban(name, description);
+      final createdKanban = await localDatasource.createKanban(params);
 
       return Right(createdKanban);
     } on LocalDatabaseException {
@@ -29,7 +28,7 @@ class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
   }
 
   @override
-  Future<Either<Failure, int>> deleteKanban(String key) async {
+  Future<Either<Failure, IList<Kanban>>> deleteKanban(String key) async {
     try {
       final deletingResponse = await localDatasource.deleteKanban(key);
 
@@ -40,20 +39,22 @@ class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
   }
 
   @override
-  Future<Either<Failure, Kanban>> readKanban(String key) async {
+  Future<Either<Failure, IList<Kanban>>> readAllKanbans() async {
     try {
-      final kanban = await localDatasource.readKanban(key);
+      final kanbansList = await localDatasource.readAllKanbans();
 
-      return Right(kanban);
+      return Right(kanbansList);
     } on LocalDatabaseException {
       return Left(LocalDatabaseFailure());
     }
   }
 
   @override
-  Future<Either<Failure, Kanban>> updateKanban(KanbanModel model) async {
+  Future<Either<Failure, IList<Kanban>>> updateKanban(
+    UpdateKanbanParams params,
+  ) async {
     try {
-      final updatedKanban = await localDatasource.updateKanban(model);
+      final updatedKanban = await localDatasource.updateKanban(params);
 
       return Right(updatedKanban);
     } on LocalDatabaseException {

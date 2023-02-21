@@ -1,33 +1,29 @@
-import 'package:home_challenge_kanban/core/error/failures.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/database/kanban_database.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/database/kanban_database_impl.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/mapping/kanban_entitie_mapper.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
 abstract class CrudKanbanLocalDatasource {
-  /// Creates [KanbanModel] in a Local [Dirft] SqlDatabase.
+  /// Creates [KanbanModel] in a Local [sqlite3] database.
   ///
   /// Throw [LocalDatabaseException] if can't create Kanban.
-  Future<KanbanModel> createKanban(
-    String name,
-    String? description,
-  );
+  Future<IList<KanbanModel>> createKanban(CreateKanbanParams params);
 
-  /// Find by [key] and delete [KanbanModel] from Local [Dirft] SqlDatabase.
+  /// Find by [key] and delete [KanbanModel] from Local [sqlite3] database.
   ///
   /// Throw [LocalDatabaseException] if no data present or can't delete either.
-  Future<int> deleteKanban(String key);
+  Future<IList<KanbanModel>> deleteKanban(String key);
 
-  /// Find by [key] and read [KanbanModel] in a Local [Dirft] SqlDatabase.
+  /// Find all [KanbanModel]s in Local [sqlite3] database.
   ///
-  /// Throw [LocalDatabaseException] if no data present.
-  Future<KanbanModel> readKanban(String key);
+  /// Throw [LocalDatabaseException] if no data present or can't delete either.
+  Future<IList<KanbanModel>> readAllKanbans();
 
-  /// Find by [key] and update [KanbanModel] in a Local [Dirft] SqlDatabase.
+  /// Find by [key] and update [KanbanModel] in a Local [sqlite3] database.
   ///
   /// Throw [LocalDatabaseException] if no data present or can't update either.
-  Future<KanbanModel> updateKanban(KanbanModel model);
+  Future<IList<KanbanModel>> updateKanban(UpdateKanbanParams params);
 }
 
 class CrudKanbanLocalDataSourceImpl implements CrudKanbanLocalDatasource {
@@ -36,44 +32,44 @@ class CrudKanbanLocalDataSourceImpl implements CrudKanbanLocalDatasource {
   CrudKanbanLocalDataSourceImpl({required this.database});
 
   @override
-  Future<KanbanModel> createKanban(String name, String? description) {
+  Future<IList<KanbanModel>> createKanban(CreateKanbanParams params) {
     try {
-      final kanban = database.createKanban(name, description);
+      final kanbans = database.createKanban(params);
 
-      return kanban;
+      return kanbans;
     } on LocalDatabaseException {
       rethrow;
     }
   }
 
   @override
-  Future<int> deleteKanban(String key) {
+  Future<IList<KanbanModel>> deleteKanban(String key) {
     try {
-      final responseCode = database.deleteKanban(key);
+      final kanbans = database.deleteKanban(key);
 
-      return responseCode;
+      return kanbans;
     } on LocalDatabaseException {
       rethrow;
     }
   }
 
   @override
-  Future<KanbanModel> readKanban(String key) {
+  Future<IList<KanbanModel>> readAllKanbans() {
     try {
-      final kanban = database.readKanbanByKey(key);
+      final kanbans = database.readAllKanbans();
 
-      return kanban;
+      return kanbans;
     } on LocalDatabaseException {
       rethrow;
     }
   }
 
   @override
-  Future<KanbanModel> updateKanban(KanbanModel model) {
+  Future<IList<KanbanModel>> updateKanban(UpdateKanbanParams params) {
     try {
-      final kanban = database.updateKanban(model.toKanbanEntity());
+      final kanbans = database.updateKanban(params);
 
-      return kanban;
+      return kanbans;
     } on LocalDatabaseException {
       rethrow;
     }

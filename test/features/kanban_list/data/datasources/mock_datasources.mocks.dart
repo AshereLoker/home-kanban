@@ -5,10 +5,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart'
+    as _i2;
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart'
     as _i3;
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart'
-    as _i2;
+    as _i5;
+import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart'
+    as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -22,14 +26,17 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeKanbanModel_0 extends _i1.SmartFake implements _i2.KanbanModel {
-  _FakeKanbanModel_0(
+class _FakeIList_0<T> extends _i1.SmartFake implements _i2.IList<T> {
+  _FakeIList_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
           parent,
           parentInvocation,
         );
+
+  @override
+  String toString([bool? prettyPrint]) => super.toString();
 }
 
 /// A class which mocks [CrudKanbanLocalDatasource].
@@ -38,92 +45,101 @@ class _FakeKanbanModel_0 extends _i1.SmartFake implements _i2.KanbanModel {
 class MockCrudKanbanLocalDatasource extends _i1.Mock
     implements _i3.CrudKanbanLocalDatasource {
   @override
-  _i4.Future<_i2.KanbanModel> createKanban(
-    String? name,
-    String? description,
-  ) =>
+  _i4.Future<_i2.IList<_i5.KanbanModel>> createKanban(
+          _i6.CreateKanbanParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #createKanban,
-          [
-            name,
-            description,
-          ],
+          [params],
         ),
-        returnValue: _i4.Future<_i2.KanbanModel>.value(_FakeKanbanModel_0(
+        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
           this,
           Invocation.method(
             #createKanban,
-            [
-              name,
-              description,
-            ],
+            [params],
           ),
         )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.KanbanModel>.value(_FakeKanbanModel_0(
+        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
           this,
           Invocation.method(
             #createKanban,
-            [
-              name,
-              description,
-            ],
+            [params],
           ),
         )),
-      ) as _i4.Future<_i2.KanbanModel>);
+      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
   @override
-  _i4.Future<int> deleteKanban(String? key) => (super.noSuchMethod(
+  _i4.Future<_i2.IList<_i5.KanbanModel>> deleteKanban(String? key) =>
+      (super.noSuchMethod(
         Invocation.method(
           #deleteKanban,
           [key],
         ),
-        returnValue: _i4.Future<int>.value(0),
-        returnValueForMissingStub: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
+          this,
+          Invocation.method(
+            #deleteKanban,
+            [key],
+          ),
+        )),
+        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
+          this,
+          Invocation.method(
+            #deleteKanban,
+            [key],
+          ),
+        )),
+      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
   @override
-  _i4.Future<_i2.KanbanModel> readKanban(String? key) => (super.noSuchMethod(
+  _i4.Future<_i2.IList<_i5.KanbanModel>> readAllKanbans() =>
+      (super.noSuchMethod(
         Invocation.method(
-          #readKanban,
-          [key],
+          #readAllKanbans,
+          [],
         ),
-        returnValue: _i4.Future<_i2.KanbanModel>.value(_FakeKanbanModel_0(
+        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
           this,
           Invocation.method(
-            #readKanban,
-            [key],
+            #readAllKanbans,
+            [],
           ),
         )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.KanbanModel>.value(_FakeKanbanModel_0(
+        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
           this,
           Invocation.method(
-            #readKanban,
-            [key],
+            #readAllKanbans,
+            [],
           ),
         )),
-      ) as _i4.Future<_i2.KanbanModel>);
+      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
   @override
-  _i4.Future<_i2.KanbanModel> updateKanban(_i2.KanbanModel? model) =>
+  _i4.Future<_i2.IList<_i5.KanbanModel>> updateKanban(
+          _i6.UpdateKanbanParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateKanban,
-          [model],
+          [params],
         ),
-        returnValue: _i4.Future<_i2.KanbanModel>.value(_FakeKanbanModel_0(
+        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
           this,
           Invocation.method(
             #updateKanban,
-            [model],
+            [params],
           ),
         )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.KanbanModel>.value(_FakeKanbanModel_0(
+        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
+            _FakeIList_0<_i5.KanbanModel>(
           this,
           Invocation.method(
             #updateKanban,
-            [model],
+            [params],
           ),
         )),
-      ) as _i4.Future<_i2.KanbanModel>);
+      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
 }

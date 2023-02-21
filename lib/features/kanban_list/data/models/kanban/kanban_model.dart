@@ -8,10 +8,23 @@ part 'kanban_model.g.dart';
 @JsonSerializable(createToJson: true)
 class KanbanModel extends Kanban {
   const KanbanModel({
+    required DateTime createAt,
+    required KanbanStatus status,
     required String key,
     required String name,
+    required int order,
+    DateTime? dueDate,
     String? description,
-  }) : super(key: key, name: name, description: description);
+  }) : super(
+          createAt: createAt,
+          dueDate: dueDate,
+          name: name,
+          order: order,
+          key: key,
+          status: status,
+          description: description,
+        );
+
 
   factory KanbanModel.fromJson(Map<String, dynamic> json) =>
       _$KanbanModelFromJson(json);

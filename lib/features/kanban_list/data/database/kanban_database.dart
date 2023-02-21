@@ -1,11 +1,10 @@
-import 'package:home_challenge_kanban/features/kanban_list/data/database/kanban_database_impl.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
-import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
 abstract class KanbanDatabase {
-  Future<KanbanModel> createKanban(String name, String? body);
-  Future<List<KanbanModel>> getAllKanbanEntities();
-  Future<KanbanModel> readKanbanByKey(String key);
-  Future<KanbanModel> updateKanban(KanbanEntitie entity);
-  Future<int> deleteKanban(String key);
+  Future<IList<KanbanModel>> createKanban(CreateKanbanParams params);
+  Future<IList<KanbanModel>> readAllKanbans();
+  Future<IList<KanbanModel>> updateKanban(UpdateKanbanParams params);
+  Future<IList<KanbanModel>> deleteKanban(String key);
 }

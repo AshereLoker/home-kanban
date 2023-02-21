@@ -1,15 +1,16 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:either_dart/either.dart';
 import 'package:home_challenge_kanban/core/usecases/usecase.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/kanban_repository.dart';
 
-class ReadKanban implements UseCase<Kanban, String> {
-  final CrudKanbanRepository kanbanEntityRepository;
+class ReadAllKanbans extends UseCase<IList<Kanban>, NoParams> {
+  final CrudKanbanRepository repository;
 
-  ReadKanban(this.kanbanEntityRepository);
+  ReadAllKanbans(this.repository);
 
   @override
-  Future<Either<Failure, Kanban>> call(key) async =>
-      await kanbanEntityRepository.readKanban(key);
+  Future<Either<Failure, IList<Kanban>>> call(NoParams params) =>
+      repository.readAllKanbans();
 }
