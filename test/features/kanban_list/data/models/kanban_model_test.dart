@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/database/drift_database_impl.dart';
+import 'package:home_challenge_kanban/core/database/drift/drift_database_impl.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 
@@ -22,20 +22,18 @@ void main() {
     expect(tKanbanModel, isA<Kanban>());
   });
 
-  group('fromJson', () {
-    test(
-      'should return a valid model then JSON is readed, created or updated successful',
-      () async {
-        // arrange.
-        final jsonMap =
-            json.decode(fixture('kanban.json')) as Map<String, dynamic>;
-        // act.
-        final result = KanbanModel.fromJson(jsonMap);
-        // assert.
-        expect(result, equals(tKanbanModel));
-      },
-    );
-  });
+  test(
+    'should return a valid model then JSON when decode is successful',
+    () async {
+      // arrange.
+      final jsonMap =
+          json.decode(fixture('kanban.json')) as Map<String, dynamic>;
+      // act.
+      final result = KanbanModel.fromJson(jsonMap);
+      // assert.
+      expect(result, equals(tKanbanModel));
+    },
+  );
 
   test(
     'should return a JSON map containing the proper data',

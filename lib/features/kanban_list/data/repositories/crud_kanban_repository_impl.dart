@@ -4,7 +4,7 @@ import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:either_dart/either.dart';
-import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/kanban_repository.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/crud_kanban_repository.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
 class CrudKanbanRepositoryImpl implements CrudKanbanRepository {

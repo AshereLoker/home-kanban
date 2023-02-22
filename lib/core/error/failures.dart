@@ -12,4 +12,6 @@ abstract class Failure extends Equatable {
 // General failures.
 class LocalDatabaseFailure extends Failure {}
 
+class LocalTimerFailure extends Failure {}
+
 class CacheException extends Failure {}

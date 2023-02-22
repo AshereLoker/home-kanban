@@ -2,17 +2,18 @@ import 'package:either_dart/either.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:home_challenge_kanban/core/database/drift/drift_database_impl.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:home_challenge_kanban/core/usecases/usecase.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/database/drift_database_impl.dart';
+
 import 'package:home_challenge_kanban/features/kanban_list/data/mapping/kanban_mapper.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../test_kanban_constants.dart';
-import '../../domain/usecases/mock/mock_usecases.mocks.dart';
+import '../../domain/usecases/mock/mock_kanban_usecases.mocks.dart';
+import '../../kanban_test_constantst.dart';
 
 void main() {
   late KanbansBloc bloc;

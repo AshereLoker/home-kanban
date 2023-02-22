@@ -1,5 +1,4 @@
-
-import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/kanban_repository.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/crud_kanban_repository.dart';
 import 'package:mockito/annotations.dart';
 
 @GenerateNiceMocks([MockSpec<CrudKanbanRepository>()])

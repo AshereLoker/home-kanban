@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_challenge_kanban/core/assets/kanban_assets.g.dart';
 import 'package:home_challenge_kanban/core/constants/app_sizes.dart';
 import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/mapping/kanban_mapper.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
@@ -68,7 +67,14 @@ class _KanbanFullViewState extends State<KanbanFullView> {
                 textSubtitleText16Regular: textSubtitleText16Regular,
               ),
             ),
-            AppSize.sizedBoxH24,
+            AppSize.sizedBoxH8,
+            _cardBase(
+              context,
+              _KanbanTimesInfo(
+                kanban: widget.kanban,
+                textSubtitleText16Regular: textSubtitleText16Regular,
+              ),
+            ),
           ],
         ),
       );

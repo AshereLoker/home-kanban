@@ -1,7 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: depend_on_referenced_packages
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:home_challenge_kanban/core/usecases/usecase.dart';

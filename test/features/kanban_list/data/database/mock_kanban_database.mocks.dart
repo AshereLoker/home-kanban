@@ -7,7 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart'
     as _i2;
-import 'package:home_challenge_kanban/features/kanban_list/data/database/kanban_database.dart'
+import 'package:home_challenge_kanban/core/database/kanban_database.dart'
     as _i3;
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart'
     as _i5;
@@ -39,10 +39,10 @@ class _FakeIList_0<T> extends _i1.SmartFake implements _i2.IList<T> {
   String toString([bool? prettyPrint]) => super.toString();
 }
 
-/// A class which mocks [KanbanDatabase].
+/// A class which mocks [LocalKanbanDatabase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockKanbanDatabase extends _i1.Mock implements _i3.KanbanDatabase {
+class MockLocalKanbanDatabase extends _i1.Mock implements _i3.KanbanDatabase {
   @override
   _i4.Future<_i2.IList<_i5.KanbanModel>> createKanban(
           _i6.CreateKanbanParams? params) =>

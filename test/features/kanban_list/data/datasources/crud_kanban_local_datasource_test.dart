@@ -2,24 +2,25 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart';
+import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource_impl.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../test_kanban_constants.dart';
-import '../database/mock_kanban_database.mocks.dart';
+import '../../../../core/database/mock/mock_kanban_database.mocks.dart';
+import '../../kanban_test_constantst.dart';
 
 void main() {
-  late CrudKanbanLocalDataSourceImpl dataSource;
+  late CrudKanbanLocalDatasource dataSource;
   late MockKanbanDatabase mockDatabase;
 
   setUp(() {
     mockDatabase = MockKanbanDatabase();
-    dataSource = CrudKanbanLocalDataSourceImpl(database: mockDatabase);
+    dataSource = CrudKanbanLocalDatasourceImpl(localDatabase: mockDatabase);
   });
 
   group('createKanban', () {
     test(
-      'should return kanban from database when it successfuly created in database',
+      'should return List<Kanban> from database when it successfuly created in database',
       () async {
         // arrange.
         when(mockDatabase.createKanban(any))
@@ -54,7 +55,7 @@ void main() {
 
   group('deleteKanban', () {
     test(
-      'should return code 200 from database when deleting in database is successful',
+      'should return List<Kanban> from database when deleting in database is successful',
       () async {
         // arrange.
         when(mockDatabase.deleteKanban(any))
@@ -75,7 +76,7 @@ void main() {
         when(mockDatabase.deleteKanban(any))
             .thenThrow(LocalDatabaseException());
         // act.
-        final call = dataSource.deleteKanban;
+        final call = mockDatabase.deleteKanban;
         // assert.
         expect(
           () => call(tKey),
@@ -126,7 +127,7 @@ void main() {
         // arrange.
         when(mockDatabase.readAllKanbans()).thenThrow(LocalDatabaseException());
         // act.
-        final call = dataSource.readAllKanbans;
+        final call = mockDatabase.readAllKanbans;
         // assert.
         expect(
           () => call(),
@@ -161,7 +162,7 @@ void main() {
         when(mockDatabase.updateKanban(any))
             .thenThrow(LocalDatabaseException());
         // act.
-        final call = dataSource.updateKanban;
+        final call = mockDatabase.updateKanban;
         // assert.
         expect(
           () => call(tUpdateKanbanParams),

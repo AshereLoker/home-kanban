@@ -1,80 +1,34 @@
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:drift_db_viewer/drift_db_viewer.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_challenge_kanban/core/assets/kanban_assets.g.dart';
 import 'package:home_challenge_kanban/core/constants/app_sizes.dart';
 import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/database/drift_database_impl.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/database/kanban_database.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/widgets/kanban_full_view.dart';
-import 'package:home_challenge_kanban/injection_container.dart';
+import 'package:home_challenge_kanban/features/timer/presentation/widgets/play_stop_button.dart';
 
 class KanbanItem extends DragAndDropItem {
   final Kanban kanban;
   final BuildContext context;
-  KanbanItem(this.context, this.kanban)
-      : super(child: _KanbanCard(kanban: kanban));
+
+  KanbanItem(
+    this.context,
+    this.kanban,
+  ) : super(child: _KanbanCard(kanban: kanban));
 }
 
-class _KanbanCard extends StatelessWidget {
+class _KanbanCard extends StatefulWidget {
   final Kanban kanban;
 
-  const _KanbanCard({required this.kanban});
+  const _KanbanCard({
+    required this.kanban,
+  });
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () => showBottomSheet<void>(
-          context: context,
-          builder: (context) => KanbanFullView(kanban),
-        ),
-        child: Container(
-          constraints: _cardConstarint(),
-          decoration: _cardDecoration(context),
-          padding: _cardMargin(),
-          margin: _cardPaddings(),
-          child: _buildBody(context, kanban),
-        ),
-      );
-
-  Column _buildBody(BuildContext context, Kanban kanban) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: AppSize.commonHorizontalPadding / 4,
-            ),
-            child: _KanbanNameRow(
-              textTitleText20Bold: textTitleText20Bold,
-              kanban: kanban,
-            ),
-          ),
-          if (kanban.description != null && kanban.description!.isNotEmpty) ...[
-            AppSize.sizedBoxH4,
-            Text(
-              kanban.description!,
-              style: textSubtitleText16Regular,
-              maxLines: 3,
-              overflow: TextOverflow.fade,
-            ),
-          ],
-          AppSize.sizedBoxH8,
-          Row(
-            children: const [
-              KanbanAppSvgAssetPicture(
-                assetName: KanbanAssets.ASSETS_SVG_IC_CLOCK_SVG,
-                size: 16,
-                color: Colors.white,
-              ),
-              AppSize.sizedBoxW8,
-              Text('31.01.2022', style: textTimeText16Bold),
-            ],
-          ),
-        ],
-      );
+  State<_KanbanCard> createState() => _KanbanCardState();
 
   static const String _baseFont = 'Grotte';
 
@@ -98,6 +52,84 @@ class _KanbanCard extends StatelessWidget {
     height: 1.25,
     fontWeight: FontWeight.w400,
   );
+}
+
+class _KanbanCardState extends State<_KanbanCard> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        children: [
+          GestureDetector(
+            onTap: () => showBottomSheet<void>(
+              context: context,
+              builder: (context) => KanbanFullView(widget.kanban),
+            ),
+            child: Container(
+              constraints: _cardConstarint(),
+              decoration: _cardDecoration(context),
+              padding: _cardMargin(),
+              margin: _cardPaddings(),
+              child: _buildBody(context, widget.kanban),
+            ),
+          ),
+          Positioned(
+            bottom: 2,
+            right: 4,
+            child: TimerPlayStopButton(
+              widgetKey: widget.kanban.key,
+              buttonSize: 16,
+              iconSize: 28,
+            ),
+          ),
+        ],
+      );
+
+  Column _buildBody(BuildContext context, Kanban kanban) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: AppSize.commonHorizontalPadding / 4,
+            ),
+            child: _KanbanNameRow(
+              textTitleText20Bold: _KanbanCard.textTitleText20Bold,
+              kanban: kanban,
+            ),
+          ),
+          if (kanban.description != null && kanban.description!.isNotEmpty) ...[
+            AppSize.sizedBoxH4,
+            Text(
+              kanban.description!,
+              style: _KanbanCard.textSubtitleText16Regular,
+              maxLines: 3,
+              overflow: TextOverflow.fade,
+            ),
+          ],
+          AppSize.sizedBoxH8,
+          if (kanban.dueDate == null) ...[
+            Row(
+              children: [
+                const KanbanAppSvgAssetPicture(
+                  assetName: KanbanAssets.ASSETS_SVG_IC_CLOCK_SVG,
+                  size: 16,
+                  color: Colors.white,
+                ),
+                AppSize.sizedBoxW8,
+                Text(
+                  '${kanban.dueDate}',
+                  style: _KanbanCard.textTimeText16Bold,
+                ),
+              ],
+            ),
+          ] else
+            const SizedBox(height: 20),
+        ],
+      );
 
   BoxConstraints _cardConstarint() => const BoxConstraints(
         minHeight: AppSize.cardMinimumHeight,
@@ -114,6 +146,7 @@ class _KanbanCard extends StatelessWidget {
         right: AppSize.commonHorizontalPadding / 4,
         top: AppSize.commonVerticalPadding,
       );
+
   EdgeInsets _cardMargin() => const EdgeInsets.all(
         AppSize.commonVerticalPadding,
       );

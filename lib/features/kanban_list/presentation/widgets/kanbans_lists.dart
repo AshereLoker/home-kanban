@@ -2,7 +2,6 @@ import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/mapping/kanban_mapper.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
@@ -12,6 +11,8 @@ import 'package:sizer/sizer.dart';
 
 // ignore: must_be_immutable
 class KanbanLists extends StatelessWidget {
+  final ValueNotifier<String?> timerStartWithKanban =
+      ValueNotifier<String?>(null);
   late List<DragAndDropList> kanbanViewLists;
   final IList<Kanban> kanbans;
 

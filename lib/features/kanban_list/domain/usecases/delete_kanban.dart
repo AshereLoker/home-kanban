@@ -3,7 +3,7 @@ import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:either_dart/either.dart';
 import 'package:home_challenge_kanban/core/usecases/usecase.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
-import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/kanban_repository.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/crud_kanban_repository.dart';
 
 class DeleteKanban implements UseCase<IList<Kanban>, String> {
   final CrudKanbanRepository kanbanEntityRepository;

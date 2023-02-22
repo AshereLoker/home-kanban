@@ -6,8 +6,8 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanba
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/update_kanban.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../test_kanban_constants.dart';
-import '../repository/crud_kanban_mock.mocks.dart';
+import '../../kanban_test_constantst.dart';
+import '../repository/mock/mock_crud_kanban.mocks.dart';
 
 void main() {
   late UpdateKanban usecase;

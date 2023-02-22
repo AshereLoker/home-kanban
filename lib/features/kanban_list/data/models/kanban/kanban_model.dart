@@ -1,5 +1,5 @@
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
-// Just bug of analyzer. Freezed annotation added to DEV dependency.
+// Just bug of analyzer. Freezed annotation added to Dev Dependency.
 // ignore: depend_on_referenced_packages
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -24,7 +24,6 @@ class KanbanModel extends Kanban {
           status: status,
           description: description,
         );
-
 
   factory KanbanModel.fromJson(Map<String, dynamic> json) =>
       _$KanbanModelFromJson(json);

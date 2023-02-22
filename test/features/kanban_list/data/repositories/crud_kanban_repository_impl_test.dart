@@ -7,8 +7,8 @@ import 'package:home_challenge_kanban/features/kanban_list/data/repositories/cru
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../test_kanban_constants.dart';
-import '../datasources/mock_datasources.mocks.dart';
+import '../../kanban_test_constantst.dart';
+import '../datasources/mock/mock_datasources.mocks.dart';
 
 void main() {
   late CrudKanbanRepositoryImpl repository;
@@ -24,7 +24,7 @@ void main() {
   );
 
   group(
-    'local datasource',
+    'local kanban datasource:',
     () {
       // Successful group test starts from here.
       test(
@@ -46,7 +46,7 @@ void main() {
       );
 
       test(
-        'should return success code when delete in local data source is successful',
+        'should return list of local when delete in local data source is successful',
         () async {
           // arrange.
           when(mockLocalDatasource.deleteKanban(any))

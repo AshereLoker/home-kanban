@@ -1,9 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:home_challenge_kanban/core/database/kanban_database.dart';
+import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/mapping/kanban_mapper.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
@@ -11,7 +12,6 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanba
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/database/kanban_database.dart';
 import 'package:uuid/uuid.dart';
 
 part 'drift_database_impl.g.dart';
@@ -32,10 +32,10 @@ class KanbanEntities extends Table {
   Set<Column> get primaryKey => {key};
 }
 
-/// [forTest] swither only need for DriftDatabaseTest file.
-/// Not use it at any other kind place.
 @DriftDatabase(tables: [KanbanEntities])
 class DriftDatabaseImpl extends _$DriftDatabaseImpl implements KanbanDatabase {
+  /// [forTest] swither only need for DriftDatabaseTest file.
+  /// Not use it at any other kind place.
   final bool forTest;
   DriftDatabaseImpl({QueryExecutor? executor, this.forTest = false})
       : super(executor ??= _openConnection());

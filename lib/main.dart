@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/pages/kanbans_page.dart';
+import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
 import 'package:home_challenge_kanban/injection_container.dart' as di;
 import 'package:home_challenge_kanban/injection_container.dart';
 import 'package:sizer/sizer.dart';
@@ -56,11 +57,18 @@ class MainApp extends StatelessWidget {
             ),
             useMaterial3: true,
           ),
-          home: BlocProvider(
-            create: (context) => sl<KanbansBloc>()
-              ..add(
-                const KanbansEvent.initState(),
+          home: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => sl<KanbansBloc>()
+                  ..add(
+                    const KanbansEvent.initState(),
+                  ),
               ),
+              BlocProvider(
+                create: (context) => sl<TimerBloc>(),
+              ),
+            ],
             child: KanbansPage(),
           ),
         ),

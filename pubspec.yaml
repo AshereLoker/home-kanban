@@ -24,11 +24,13 @@ dependencies:
   # Dependency injection.
   flutter_hooks: ^0.18.6
   flutter_svg: ^2.0.1
+  freezed_annotation: ^2.2.0
   get_it: ^7.2.0
   # Find and works with locations for DB.
   path: ^1.8.2
   path_provider: ^2.0.12
   # Local cache. 
+  rxdart: ^0.27.7
   shared_preferences: ^2.0.17
   sizer: ^2.0.15
   sqlite3_flutter_libs: ^0.5.12
@@ -50,7 +52,6 @@ dev_dependencies:
     sdk: flutter
   # Magic code-generators.
   freezed: ^2.3.2
-  freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
   json_serializable: ^6.6.1
   # Also lint.

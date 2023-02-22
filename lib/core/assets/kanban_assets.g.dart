@@ -17,6 +17,9 @@ class KanbanAssets {
   static const String ASSETS_SVG_IC_DESCRIPTION_SVG =
       'assets/svg/ic_description.svg';
 
+  static const String ASSETS_SVG_IC_DOWNLOAD_FILE_SVG =
+      'assets/svg/ic_download_file.svg';
+
   static const String ASSETS_SVG_IC_EDIT_SVG = 'assets/svg/ic_edit.svg';
 
   static const String ASSETS_SVG_IC_EXPIRED_TASKS_SVG =
@@ -32,7 +35,15 @@ class KanbanAssets {
   static const String ASSETS_SVG_IC_MORE_VERTICAL_SVG =
       'assets/svg/ic_more_vertical.svg';
 
+  static const String ASSETS_SVG_IC_PAUSE_SVG = 'assets/svg/ic_pause.svg';
+
+  static const String ASSETS_SVG_IC_PLAY_SVG = 'assets/svg/ic_play.svg';
+
+  static const String ASSETS_SVG_IC_STOP_SVG = 'assets/svg/ic_stop.svg';
+
   static const String ASSETS_SVG_IC_TASKS_SVG = 'assets/svg/ic_tasks.svg';
+
+  static const String ASSETS_SVG_IC_TIMER_SVG = 'assets/svg/ic_timer.svg';
 
   static const String FONTS_GROTTE_GROTTE_BOLD_TTF =
       'fonts/grotte/Grotte-Bold.ttf';

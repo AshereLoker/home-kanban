@@ -3,9 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:home_challenge_kanban/core/usecases/usecase.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
-import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/kanban_repository.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/crud_kanban_repository.dart';
 
 class UpdateKanban implements UseCase<IList<Kanban>, UpdateKanbanParams> {
   final CrudKanbanRepository repository;

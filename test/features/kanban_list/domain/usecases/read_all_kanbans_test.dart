@@ -7,7 +7,7 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/read_
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../repository/crud_kanban_mock.mocks.dart';
+import '../repository/mock/mock_crud_kanban.mocks.dart';
 
 void main() {
   late final ReadAllKanbans usecase;

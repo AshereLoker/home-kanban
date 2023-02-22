@@ -3,6 +3,7 @@ import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/ka
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
 abstract class KanbanDatabase {
+  /// Create
   Future<IList<KanbanModel>> createKanban(CreateKanbanParams params);
   Future<IList<KanbanModel>> readAllKanbans();
   Future<IList<KanbanModel>> updateKanban(UpdateKanbanParams params);
