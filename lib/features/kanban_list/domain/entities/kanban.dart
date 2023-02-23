@@ -6,26 +6,32 @@ class Kanban extends Equatable {
   final DateTime createAt;
   final DateTime? dueDate;
   final String? description;
-  final int order;
+  final DateTime? finishedAt;
+  final int orderId;
   final String name;
   final String key;
   final KanbanStatus status;
+  final int? spendedTimeSeconds;
 
   const Kanban({
     required this.createAt,
     required this.name,
     required this.key,
     required this.status,
-    required this.order,
+    required this.orderId,
     this.description,
     this.dueDate,
+    this.finishedAt,
+    this.spendedTimeSeconds,
   });
 
   Kanban copyWith({
     DateTime? createAt,
     DateTime? dueDate,
+    DateTime? finishedAt,
     String? description,
-    int? order,
+    int? spendedTimeSeconds,
+    int? orderId,
     String? name,
     String? key,
     KanbanStatus? status,
@@ -34,10 +40,12 @@ class Kanban extends Equatable {
         createAt: createAt ?? this.createAt,
         dueDate: dueDate ?? this.dueDate,
         description: description ?? this.description,
+        finishedAt: finishedAt ?? this.finishedAt,
         name: name ?? this.name,
+        orderId: orderId ?? this.orderId,
         key: key ?? this.key,
         status: status ?? this.status,
-        order: order ?? this.order,
+        spendedTimeSeconds: spendedTimeSeconds ?? this.spendedTimeSeconds,
       );
 
   @override
@@ -46,9 +54,10 @@ class Kanban extends Equatable {
         description,
         dueDate,
         name,
-        order,
+        orderId,
         key,
         status,
+        spendedTimeSeconds,
       ];
 
   @override

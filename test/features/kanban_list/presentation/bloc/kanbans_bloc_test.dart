@@ -13,7 +13,7 @@ import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kan
 import 'package:mockito/mockito.dart';
 
 import '../../domain/usecases/mock/mock_kanban_usecases.mocks.dart';
-import '../../kanban_test_constantst.dart';
+import '../../test_kanban_constantst.dart';
 
 void main() {
   late KanbansBloc bloc;
@@ -105,7 +105,7 @@ void main() {
       'KanbansEvent.loadKanbans added to event and catch '
       'a Failure from usecase.',
       setUp: () => when(mockCreateKanban.call(any))
-          .thenAnswer((_) async => Left(LocalDatabaseFailure())),
+          .thenAnswer((_) async => Left(LocalKanbanDatasourceFailure())),
       seed: () => const KanbansState.empty(),
       build: () => bloc,
       act: (bloc) => bloc.add(
@@ -163,7 +163,7 @@ void main() {
       'KanbansEvent.delete(key: tKey) added to event and catch '
       'a Failure from usecase.',
       setUp: () => when(mockDeleteKanban.call(any)).thenAnswer(
-        (_) async => Left(LocalDatabaseFailure()),
+        (_) async => Left(LocalKanbanDatasourceFailure()),
       ),
       build: () => bloc,
       act: (bloc) => bloc.add(const KanbansEvent.deleteKanban(key: tKey)),
@@ -233,7 +233,7 @@ void main() {
       'when KanbansEvent.loadKanbans added to event and catch '
       'a Failure from usecase.',
       setUp: () => when(mockReadAllKanbans.call(any))
-          .thenAnswer((_) async => Left(LocalDatabaseFailure())),
+          .thenAnswer((_) async => Left(LocalKanbanDatasourceFailure())),
       build: () => bloc,
       act: (bloc) => bloc.add(const KanbansEvent.loadAllKanbans()),
       expect: () => <KanbansState>[
@@ -252,7 +252,7 @@ void main() {
       key: tKey,
       createAt: moonLanding,
       status: KanbanStatus.todo,
-      order: 1,
+      orderId: 1,
     );
     final tUpdatedKanbanList = IListConst<Kanban>([tUpdateKanban]);
     final tUpdateKanbanParams = UpdateKanbanParams(
@@ -284,7 +284,7 @@ void main() {
       'when KanbansEvent.loadKanbans added to event and catch '
       'a Failure from usecase.',
       setUp: () => when(mockUpdateKanban.call(any))
-          .thenAnswer((_) async => Left(LocalDatabaseFailure())),
+          .thenAnswer((_) async => Left(LocalKanbanDatasourceFailure())),
       build: () => bloc,
       act: (bloc) => bloc.add(
         KanbansEvent.updateKanban(params: tUpdateKanbanParams),

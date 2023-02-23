@@ -7,11 +7,12 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanba
 const tName = 'test';
 const tDescr = 'test';
 const tKey = 'tKey';
+const tOrderId = 0;
 const tCreateKanbanParams = CreateKanbanParams(
   status: KanbanStatus.todo,
   name: tName,
   description: tDescr,
-  order: 0,
+  order: tOrderId,
 );
 
 final tUpdateKanbanParams = UpdateKanbanParams(modelToUpdate: tKanbanModel);
@@ -22,7 +23,7 @@ final tKanbanModel = KanbanModel(
   key: tKey,
   status: KanbanStatus.todo,
   createAt: moonLanding,
-  order: 0,
+  orderId: tOrderId,
 );
 final Kanban tKanban = tKanbanModel;
 final tKanbanModelFullfilList = IListConst<KanbanModel>([tKanbanModel]);

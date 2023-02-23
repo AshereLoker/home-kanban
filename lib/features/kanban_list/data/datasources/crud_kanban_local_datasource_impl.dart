@@ -1,4 +1,4 @@
-import 'package:fast_immutable_collections/src/ilist/ilist.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:home_challenge_kanban/core/database/kanban_database.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart';
@@ -7,17 +7,17 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/creat
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
 
 class CrudKanbanLocalDatasourceImpl implements CrudKanbanLocalDatasource {
-  final KanbanDatabase localDatabase;
+  final KanbanDatabase database;
 
-  CrudKanbanLocalDatasourceImpl({required this.localDatabase});
+  CrudKanbanLocalDatasourceImpl({required this.database});
 
   @override
   Future<IList<KanbanModel>> createKanban(CreateKanbanParams params) {
     try {
-      final response = localDatabase.createKanban(params);
+      final response = database.createKanban(params);
 
       return response;
-    } on LocalDatabaseException {
+    } on LocalKanbanDatasourceException {
       rethrow;
     }
   }
@@ -25,10 +25,10 @@ class CrudKanbanLocalDatasourceImpl implements CrudKanbanLocalDatasource {
   @override
   Future<IList<KanbanModel>> deleteKanban(String key) {
     try {
-      final response = localDatabase.deleteKanban(key);
+      final response = database.deleteKanban(key);
 
       return response;
-    } on LocalDatabaseException {
+    } on LocalKanbanDatasourceException {
       rethrow;
     }
   }
@@ -36,10 +36,10 @@ class CrudKanbanLocalDatasourceImpl implements CrudKanbanLocalDatasource {
   @override
   Future<IList<KanbanModel>> readAllKanbans() {
     try {
-      final response = localDatabase.readAllKanbans();
+      final response = database.readAllKanbans();
 
       return response;
-    } on LocalDatabaseException {
+    } on LocalKanbanDatasourceException {
       rethrow;
     }
   }
@@ -47,10 +47,10 @@ class CrudKanbanLocalDatasourceImpl implements CrudKanbanLocalDatasource {
   @override
   Future<IList<KanbanModel>> updateKanban(UpdateKanbanParams params) {
     try {
-      final response = localDatabase.updateKanban(params);
+      final response = database.updateKanban(params);
 
       return response;
-    } on LocalDatabaseException {
+    } on LocalKanbanDatasourceException {
       rethrow;
     }
   }

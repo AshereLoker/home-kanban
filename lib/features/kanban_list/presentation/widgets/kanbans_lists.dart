@@ -61,6 +61,7 @@ class KanbanLists extends StatelessWidget {
           color: Theme.of(context).colorScheme.surfaceVariant,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
+        
       ),
     );
   }
@@ -103,7 +104,7 @@ class KanbanLists extends StatelessWidget {
           KanbansEvent.updateKanban(
             params: UpdateKanbanParams(
               modelToUpdate:
-                  kanban.copyWith(order: newItemIndex, status: newStatus),
+                  kanban.copyWith(orderId: newItemIndex, status: newStatus),
             ),
           ),
         );

@@ -1,7 +1,4 @@
 // ignore_for_file: void_checks
-
-import 'dart:ffi';
-
 import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
@@ -9,7 +6,7 @@ import 'package:home_challenge_kanban/features/timer/data/repositories/timer_rep
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../timer_test_constants.dart';
+import '../../test_timer_constants.dart';
 import '../datasources/mock/mock_timer_local_datasource.mocks.dart';
 
 void main() {

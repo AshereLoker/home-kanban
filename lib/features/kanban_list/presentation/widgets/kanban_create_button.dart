@@ -49,7 +49,7 @@ class _KanbanCreateButtonState extends State<KanbanCreateButton> {
                   style: const ButtonStyle(),
                   onPressed: () => showTextField.value = true,
                   child: Text(
-                    '+ ADD CARD',
+                    '+ QUICK ADD',
                     style: textButtonText16Bold.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),

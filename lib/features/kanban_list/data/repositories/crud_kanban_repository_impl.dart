@@ -8,10 +8,10 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/c
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
 class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
-  final CrudKanbanLocalDatasource localDatasource;
+  final CrudKanbanLocalDatasource datasource;
 
   CrudKanbanRepositoryImpl({
-    required this.localDatasource,
+    required this.datasource,
   });
 
   @override
@@ -19,33 +19,33 @@ class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
     CreateKanbanParams params,
   ) async {
     try {
-      final createdKanban = await localDatasource.createKanban(params);
+      final createdKanban = await datasource.createKanban(params);
 
       return Right(createdKanban);
-    } on LocalDatabaseException {
-      return Left(LocalDatabaseFailure());
+    } on LocalKanbanDatasourceException {
+      return Left(LocalKanbanDatasourceFailure());
     }
   }
 
   @override
   Future<Either<Failure, IList<Kanban>>> deleteKanban(String key) async {
     try {
-      final deletingResponse = await localDatasource.deleteKanban(key);
+      final deletingResponse = await datasource.deleteKanban(key);
 
       return Right(deletingResponse);
-    } on LocalDatabaseException {
-      return Left(LocalDatabaseFailure());
+    } on LocalKanbanDatasourceException {
+      return Left(LocalKanbanDatasourceFailure());
     }
   }
 
   @override
   Future<Either<Failure, IList<Kanban>>> readAllKanbans() async {
     try {
-      final kanbansList = await localDatasource.readAllKanbans();
+      final kanbansList = await datasource.readAllKanbans();
 
       return Right(kanbansList);
-    } on LocalDatabaseException {
-      return Left(LocalDatabaseFailure());
+    } on LocalKanbanDatasourceException {
+      return Left(LocalKanbanDatasourceFailure());
     }
   }
 
@@ -54,11 +54,11 @@ class CrudKanbanRepositoryImpl implements CrudKanbanRepository {
     UpdateKanbanParams params,
   ) async {
     try {
-      final updatedKanban = await localDatasource.updateKanban(params);
+      final updatedKanban = await datasource.updateKanban(params);
 
       return Right(updatedKanban);
-    } on LocalDatabaseException {
-      return Left(LocalDatabaseFailure());
+    } on LocalKanbanDatasourceException {
+      return Left(LocalKanbanDatasourceFailure());
     }
   }
 }

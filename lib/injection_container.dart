@@ -1,6 +1,14 @@
 import 'package:get_it/get_it.dart';
 import 'package:home_challenge_kanban/core/database/drift/drift_database_impl.dart';
 import 'package:home_challenge_kanban/core/database/kanban_database.dart';
+import 'package:home_challenge_kanban/features/export_kanban/data/datasources/export_kanban_local_datasource.dart';
+import 'package:home_challenge_kanban/features/export_kanban/data/datasources/export_kanban_local_datasource_impl.dart';
+import 'package:home_challenge_kanban/features/export_kanban/data/export_service/csv_export_service_impl.dart';
+import 'package:home_challenge_kanban/features/export_kanban/data/export_service/export_service.dart';
+import 'package:home_challenge_kanban/features/export_kanban/data/repositories/export_kanban_repository_impl.dart';
+import 'package:home_challenge_kanban/features/export_kanban/domain/repositories/export_kanban_repository.dart';
+import 'package:home_challenge_kanban/features/export_kanban/domain/usecases/export_kanban_usecases.dart';
+import 'package:home_challenge_kanban/features/export_kanban/presentation/bloc/export_kanban_bloc.dart';
 
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/datasources/crud_kanban_local_datasource_impl.dart';
@@ -25,6 +33,25 @@ final sl = GetIt.instance;
 void init() {
   // ! Features
   // Kanbans
+  _initKanbansFeature();
+
+  // Timer Service
+  _initTimerFeature();
+
+  // Export Kanban
+  _initExportFeature();
+
+  // ! External
+  // Database
+  sl
+    ..registerLazySingleton<KanbanDatabase>(() => DriftDatabaseImpl())
+    // TimerService
+    ..registerLazySingleton<TimerService>(() => StreamTimerServiceImpl())
+    // ExportService
+    ..registerLazySingleton<ExportService>(() => CsvExportServiceImpl());
+}
+
+void _initKanbansFeature() {
   sl
     ..registerFactory(
       () => KanbansBloc(
@@ -43,15 +70,17 @@ void init() {
 
     // Repository
     ..registerLazySingleton<CrudKanbanRepository>(
-      () => CrudKanbanRepositoryImpl(localDatasource: sl()),
+      () => CrudKanbanRepositoryImpl(datasource: sl()),
     )
 
     // Data sources
     ..registerLazySingleton<CrudKanbanLocalDatasource>(
-      () => CrudKanbanLocalDatasourceImpl(localDatabase: sl()),
-    )
+      () => CrudKanbanLocalDatasourceImpl(database: sl()),
+    );
+}
 
-    // Timer Service
+void _initTimerFeature() {
+  sl
     ..registerFactory(() => TimerBloc(
           pauseTimer: sl(),
           startTimer: sl(),
@@ -71,10 +100,28 @@ void init() {
     // Data sources
     ..registerLazySingleton<TimerLocalDatasource>(
       () => TimerLocalDatasourceImpl(timerService: sl()),
+    );
+}
+
+void _initExportFeature() {
+  sl
+    ..registerFactory(() => ExportKanbanBloc(
+          exportSingleKanban: sl(),
+          exportMultipleKanbans: sl(),
+        ))
+
+    // UseCases
+    ..registerLazySingleton(() => ExportSingleKanban(sl()))
+    ..registerLazySingleton(() => ExportMultipleKanbans(sl()))
+
+    // Repository
+    ..registerLazySingleton<ExportKanbanRepository>(
+      () => ExportKanbanRepositoryImpl(datasource: sl()),
     )
-    // ! External
-    // Database
-    ..registerLazySingleton<KanbanDatabase>(() => DriftDatabaseImpl())
-    // TimerService
-    ..registerLazySingleton<TimerService>(() => StreamTimerServiceImpl());
+
+    // Data sources
+    ..registerLazySingleton<ExportKanbanLocalDatasource>(
+      () =>
+          ExportKanbanLocalDatasourceImpl(exportService: sl(), database: sl()),
+    );
 }

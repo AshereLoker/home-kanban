@@ -1,14 +1,18 @@
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_challenge_kanban/core/assets/kanban_assets.g.dart';
 import 'package:home_challenge_kanban/core/constants/app_sizes.dart';
 import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
+import 'package:home_challenge_kanban/features/export_kanban/domain/entities/export_kanban.dart';
+import 'package:home_challenge_kanban/features/export_kanban/presentation/bloc/export_kanban_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/widgets/kanban_full_view.dart';
-import 'package:home_challenge_kanban/features/timer/presentation/widgets/play_stop_button.dart';
+import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
+import 'package:home_challenge_kanban/features/timer/presentation/widgets/timer_play_stop_button.dart';
+import 'package:home_challenge_kanban/injection_container.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class KanbanItem extends DragAndDropItem {
   final Kanban kanban;
@@ -17,14 +21,22 @@ class KanbanItem extends DragAndDropItem {
   KanbanItem(
     this.context,
     this.kanban,
-  ) : super(child: _KanbanCard(kanban: kanban));
+  ) : super(
+          child: _KanbanCard(kanban: kanban, showPlayButton: true),
+          feedbackWidget: BlocProvider(
+            create: (context) => sl<TimerBloc>(),
+            child: _KanbanCard(kanban: kanban, showPlayButton: false),
+          ),
+        );
 }
 
 class _KanbanCard extends StatefulWidget {
   final Kanban kanban;
+  final bool showPlayButton;
 
   const _KanbanCard({
     required this.kanban,
+    required this.showPlayButton,
   });
 
   @override
@@ -76,15 +88,16 @@ class _KanbanCardState extends State<_KanbanCard> {
               child: _buildBody(context, widget.kanban),
             ),
           ),
-          Positioned(
-            bottom: 2,
-            right: 4,
-            child: TimerPlayStopButton(
-              widgetKey: widget.kanban.key,
-              buttonSize: 16,
-              iconSize: 28,
+          if (widget.showPlayButton)
+            Positioned(
+              bottom: 2,
+              right: 4,
+              child: TimerPlayStopButton(
+                widgetKey: widget.kanban.key,
+                buttonSize: 16,
+                iconSize: 28,
+              ),
             ),
-          ),
         ],
       );
 
@@ -162,30 +175,41 @@ class _KanbanNameRow extends StatelessWidget {
   final TextStyle textTitleText20Bold;
 
   @override
-  Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Text(
-              kanban.name,
-              style: textTitleText20Bold,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+  Widget build(BuildContext context) =>
+      BlocBuilder<ExportKanbanBloc, ExportKanbanState>(
+        builder: (context, state) => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Text(
+                kanban.name,
+                style: textTitleText20Bold,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-          PopupMenuButton<void>(
-            icon: const KanbanAppSvgAssetPicture(
-              assetName: KanbanAssets.ASSETS_SVG_IC_MORE_HORIZONTAL_SVG,
-              size: 20,
-              color: Colors.white,
+            PopupMenuButton<void>(
+              icon: const KanbanAppSvgAssetPicture(
+                assetName: KanbanAssets.ASSETS_SVG_IC_MORE_HORIZONTAL_SVG,
+                size: 20,
+                color: Colors.white,
+              ),
+              itemBuilder: (context) => [
+                _buildMenuItem(context, _exportKanban, 'EXPORT'),
+                _buildMenuItem(context, _deleteKanban, 'DELETE'),
+              ],
             ),
-            itemBuilder: (context) => [
-              _buildMenuItem(context, _deleteKanban, 'DELETE'),
-            ],
-          ),
-        ],
+          ],
+        ),
       );
+
+  void _exportKanban(BuildContext context) {
+    Permission.manageExternalStorage.request();
+    context.read<ExportKanbanBloc>().add(
+          ExportKanbanEvent.exportKanban(kanban.key),
+        );
+  }
 
   void _deleteKanban(BuildContext context) => context.read<KanbansBloc>().add(
         KanbansEvent.deleteKanban(key: kanban.key),

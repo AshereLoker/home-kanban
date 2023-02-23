@@ -8,6 +8,8 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanba
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
+
 class KanbanFullView extends StatefulWidget {
   final Kanban kanban;
 
@@ -47,6 +49,7 @@ class _KanbanFullViewState extends State<KanbanFullView> {
               context,
               _KanbanName(
                 kanban: widget.kanban,
+                textSubtitleText16Regular: textSubtitleText16Regular,
                 nameController: _nameController,
               ),
             ),
@@ -70,10 +73,7 @@ class _KanbanFullViewState extends State<KanbanFullView> {
             AppSize.sizedBoxH8,
             _cardBase(
               context,
-              _KanbanTimesInfo(
-                kanban: widget.kanban,
-                textSubtitleText16Regular: textSubtitleText16Regular,
-              ),
+              _KanbanTimer(kanban: widget.kanban),
             ),
           ],
         ),
@@ -99,6 +99,45 @@ class _KanbanFullViewState extends State<KanbanFullView> {
   );
 }
 
+class _KanbanTimer extends StatelessWidget {
+  final Kanban kanban;
+  const _KanbanTimer({required this.kanban});
+
+  @override
+  Widget build(BuildContext context) => BlocBuilder<TimerBloc, TimerState>(
+        builder: (context, state) => state.when(
+          notStarted: () => SizedBox(
+            height: 60,
+            width: double.infinity,
+            child: Center(child: Text('test')),
+          ),
+          isGoing: (stream, key) => key == '1'
+              ? StreamBuilder(
+                  stream: stream,
+                  builder: (context, snap) => SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: Center(
+                      child: Text('test'),
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: 60,
+                  width: double.infinity,
+                  child: Center(
+                    child: Text('test'),
+                  ),
+                ),
+          paused: (_, __) => SizedBox(
+            height: 60,
+            width: double.infinity,
+            child: Center(child: Text('test')),
+          ),
+        ),
+      );
+}
+
 class _KanbanDescription extends StatelessWidget {
   final Kanban kanban;
 
@@ -121,31 +160,16 @@ class _KanbanDescription extends StatelessWidget {
           constraints: BoxConstraints(
             minHeight: 15.w,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.ideographic,
-            children: [
-              KanbanAppSvgAssetPicture(
-                assetName: KanbanAssets.ASSETS_SVG_IC_DESCRIPTION_SVG,
-                size: 24,
-                color: Theme.of(context).colorScheme.onSurface,
+          child: _InfoWithIcon(
+            iconPath: KanbanAssets.ASSETS_SVG_IC_DESCRIPTION_SVG,
+            child: Expanded(
+              child: _KanbanTextField(
+                controller: _descriptionController,
+                textSubtitleText16Regular: textSubtitleText16Regular,
+                onChange: (change) => _changeDescription,
+                hintText: "Add you're description...",
               ),
-              AppSize.sizedBoxW24,
-              Expanded(
-                child: TextField(
-                  onChanged: (change) => _changeDescription(context),
-                  scrollPadding: EdgeInsets.zero,
-                  textAlignVertical: TextAlignVertical.top,
-                  style: textSubtitleText16Regular,
-                  controller: _descriptionController,
-                  decoration: const InputDecoration.collapsed(
-                    border: InputBorder.none,
-                    hintText: 'Add your description...',
-                  ),
-                  maxLines: null,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       );
@@ -162,11 +186,38 @@ class _KanbanDescription extends StatelessWidget {
           );
 }
 
+class _InfoWithIcon extends StatelessWidget {
+  final Widget child;
+  final String iconPath;
+
+  const _InfoWithIcon({
+    required this.child,
+    required this.iconPath,
+  });
+
+  @override
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.ideographic,
+        children: [
+          KanbanAppSvgAssetPicture(
+            assetName: iconPath,
+            size: 24,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          AppSize.sizedBoxW24,
+          child,
+        ],
+      );
+}
+
 class _KanbanName extends StatelessWidget {
   final Kanban kanban;
+  final TextStyle textSubtitleText16Regular;
 
   const _KanbanName({
     required this.kanban,
+    required this.textSubtitleText16Regular,
     required TextEditingController nameController,
   }) : _nameController = nameController;
 
@@ -175,13 +226,19 @@ class _KanbanName extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSize.commonVerticalPadding,
+          horizontal: AppSize.commonHorizontalPadding,
+          vertical: AppSize.commonHorizontalPadding,
         ),
-        child: TextField(
-          onChanged: (change) => _changeName(context),
-          controller: _nameController,
-          decoration: const InputDecoration(border: InputBorder.none),
-          maxLines: null,
+        child: _InfoWithIcon(
+          iconPath: KanbanAssets.ASSETS_SVG_IC_EDIT_SVG,
+          child: Expanded(
+            child: _KanbanTextField(
+              controller: _nameController,
+              textSubtitleText16Regular: textSubtitleText16Regular,
+              onChange: (change) => _changeName(context),
+              hintText: 'Set kanban name...',
+            ),
+          ),
         ),
       );
 
@@ -223,31 +280,49 @@ class _KanbanTimesInfo extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextField(
-                    scrollPadding: EdgeInsets.zero,
-                    textAlignVertical: TextAlignVertical.top,
-                    style: textSubtitleText16Regular,
-                    decoration: const InputDecoration.collapsed(
-                      border: InputBorder.none,
-                      hintText: 'Start date...',
-                    ),
-                    maxLines: null,
+                  _KanbanTextField(
+                    onChange: (change) {},
+                    textSubtitleText16Regular: textSubtitleText16Regular,
+                    hintText: 'Due date...',
                   ),
                   const Divider(),
-                  TextField(
-                    scrollPadding: EdgeInsets.zero,
-                    textAlignVertical: TextAlignVertical.top,
-                    style: textSubtitleText16Regular,
-                    decoration: const InputDecoration.collapsed(
-                      border: InputBorder.none,
-                      hintText: 'Due date...',
-                    ),
-                    maxLines: null,
+                  _KanbanTextField(
+                    onChange: (change) {},
+                    textSubtitleText16Regular: textSubtitleText16Regular,
+                    hintText: 'Start at...',
                   ),
                 ],
               ),
             ),
           ],
         ),
+      );
+}
+
+class _KanbanTextField extends StatelessWidget {
+  final String hintText;
+  final void Function(String) onChange;
+  final TextEditingController? controller;
+  const _KanbanTextField({
+    required this.textSubtitleText16Regular,
+    required this.onChange,
+    required this.hintText,
+    this.controller,
+  });
+
+  final TextStyle textSubtitleText16Regular;
+
+  @override
+  Widget build(BuildContext context) => TextField(
+        onChanged: onChange,
+        controller: controller,
+        scrollPadding: EdgeInsets.zero,
+        textAlignVertical: TextAlignVertical.top,
+        style: textSubtitleText16Regular,
+        decoration: InputDecoration.collapsed(
+          border: InputBorder.none,
+          hintText: hintText,
+        ),
+        maxLines: null,
       );
 }

@@ -81,7 +81,8 @@ class KanbansBloc extends Bloc<KanbansEvent, KanbansState> {
       (kanbans) => kanbans.isEmpty
           ? emit(const KanbansState.empty())
           : emit(KanbansState.loaded(
-              kanbans.sort((obj1, obj2) => obj1.order.compareTo(obj2.order)),
+              kanbans
+                  .sort((obj1, obj2) => obj1.orderId.compareTo(obj2.orderId)),
             )),
     );
   }

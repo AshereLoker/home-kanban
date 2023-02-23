@@ -10,8 +10,8 @@ abstract class Failure extends Equatable {
 }
 
 // General failures.
-class LocalDatabaseFailure extends Failure {}
+class LocalKanbanDatasourceFailure extends Failure {}
 
 class LocalTimerFailure extends Failure {}
 
-class CacheException extends Failure {}
+class LocalExportServiceFailure extends Failure {}

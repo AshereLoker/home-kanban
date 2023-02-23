@@ -5,21 +5,20 @@ import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:home_challenge_kanban/features/kanban_list/data/repositories/crud_kanban_repository_impl.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
+import 'package:home_challenge_kanban/features/kanban_list/domain/repositories/crud_kanban_repository.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../kanban_test_constantst.dart';
+import '../../test_kanban_constantst.dart';
 import '../datasources/mock/mock_datasources.mocks.dart';
 
 void main() {
-  late CrudKanbanRepositoryImpl repository;
+  late CrudKanbanRepository repository;
   late MockCrudKanbanLocalDatasource mockLocalDatasource;
 
   setUp(
     () {
       mockLocalDatasource = MockCrudKanbanLocalDatasource();
-      repository = CrudKanbanRepositoryImpl(
-        localDatasource: mockLocalDatasource,
-      );
+      repository = CrudKanbanRepositoryImpl(datasource: mockLocalDatasource);
     },
   );
 
@@ -102,11 +101,14 @@ void main() {
         () async {
           // arrange.
           when(mockLocalDatasource.createKanban(any))
-              .thenThrow(LocalDatabaseException());
+              .thenThrow(LocalKanbanDatasourceException());
           // act.
           final result = await repository.createKanban(tCreateKanbanParams);
           // assert.
-          expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          expect(
+            result,
+            equals(Left<Failure, Kanban>(LocalKanbanDatasourceFailure())),
+          );
           verify(mockLocalDatasource.createKanban(tCreateKanbanParams));
           verifyNoMoreInteractions(mockLocalDatasource);
         },
@@ -117,11 +119,14 @@ void main() {
         () async {
           // arrange.
           when(mockLocalDatasource.deleteKanban(any))
-              .thenThrow(LocalDatabaseException());
+              .thenThrow(LocalKanbanDatasourceException());
           // act.
           final result = await repository.deleteKanban(tKey);
           // assert.
-          expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          expect(
+            result,
+            equals(Left<Failure, Kanban>(LocalKanbanDatasourceFailure())),
+          );
           verify(mockLocalDatasource.deleteKanban(tKey));
           verifyNoMoreInteractions(mockLocalDatasource);
         },
@@ -132,11 +137,14 @@ void main() {
         () async {
           // arrange.
           when(mockLocalDatasource.readAllKanbans())
-              .thenThrow(LocalDatabaseException());
+              .thenThrow(LocalKanbanDatasourceException());
           // act.
           final result = await repository.readAllKanbans();
           // assert.
-          expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          expect(
+            result,
+            equals(Left<Failure, Kanban>(LocalKanbanDatasourceFailure())),
+          );
           verify(mockLocalDatasource.readAllKanbans());
           verifyNoMoreInteractions(mockLocalDatasource);
         },
@@ -147,11 +155,14 @@ void main() {
         () async {
           // arrange.
           when(mockLocalDatasource.updateKanban(any))
-              .thenThrow(LocalDatabaseException());
+              .thenThrow(LocalKanbanDatasourceException());
           // act.
           final result = await repository.updateKanban(tUpdateKanbanParams);
           // assert.
-          expect(result, equals(Left<Failure, Kanban>(LocalDatabaseFailure())));
+          expect(
+            result,
+            equals(Left<Failure, Kanban>(LocalKanbanDatasourceFailure())),
+          );
           verify(mockLocalDatasource.updateKanban(tUpdateKanbanParams));
           verifyNoMoreInteractions(mockLocalDatasource);
         },

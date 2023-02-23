@@ -21,12 +21,24 @@ class $KanbanEntitiesTable extends KanbanEntities
   late final GeneratedColumn<DateTime> dueDate = GeneratedColumn<DateTime>(
       'due_date', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _finishedAtMeta =
+      const VerificationMeta('finishedAt');
+  @override
+  late final GeneratedColumn<DateTime> finishedAt = GeneratedColumn<DateTime>(
+      'finished_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _orderIdMeta =
       const VerificationMeta('orderId');
   @override
   late final GeneratedColumn<int> orderId = GeneratedColumn<int>(
       'order_id', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _spendedTimeSecondsMeta =
+      const VerificationMeta('spendedTimeSeconds');
+  @override
+  late final GeneratedColumn<int> spendedTimeSeconds = GeneratedColumn<int>(
+      'spended_time_seconds', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
   @override
@@ -50,8 +62,17 @@ class $KanbanEntitiesTable extends KanbanEntities
       'name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [createAt, dueDate, orderId, description, status, key, name];
+  List<GeneratedColumn> get $columns => [
+        createAt,
+        dueDate,
+        finishedAt,
+        orderId,
+        spendedTimeSeconds,
+        description,
+        status,
+        key,
+        name
+      ];
   @override
   String get aliasedName => _alias ?? 'kanban_entities';
   @override
@@ -71,11 +92,23 @@ class $KanbanEntitiesTable extends KanbanEntities
       context.handle(_dueDateMeta,
           dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta));
     }
+    if (data.containsKey('finished_at')) {
+      context.handle(
+          _finishedAtMeta,
+          finishedAt.isAcceptableOrUnknown(
+              data['finished_at']!, _finishedAtMeta));
+    }
     if (data.containsKey('order_id')) {
       context.handle(_orderIdMeta,
           orderId.isAcceptableOrUnknown(data['order_id']!, _orderIdMeta));
     } else if (isInserting) {
       context.missing(_orderIdMeta);
+    }
+    if (data.containsKey('spended_time_seconds')) {
+      context.handle(
+          _spendedTimeSecondsMeta,
+          spendedTimeSeconds.isAcceptableOrUnknown(
+              data['spended_time_seconds']!, _spendedTimeSecondsMeta));
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -109,8 +142,12 @@ class $KanbanEntitiesTable extends KanbanEntities
           .read(DriftSqlType.dateTime, data['${effectivePrefix}create_at'])!,
       dueDate: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}due_date']),
+      finishedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}finished_at']),
       orderId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}order_id'])!,
+      spendedTimeSeconds: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}spended_time_seconds']),
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
       status: $KanbanEntitiesTable.$converterstatus.fromSql(attachedDatabase
@@ -135,7 +172,9 @@ class $KanbanEntitiesTable extends KanbanEntities
 class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
   final DateTime createAt;
   final DateTime? dueDate;
+  final DateTime? finishedAt;
   final int orderId;
+  final int? spendedTimeSeconds;
   final String? description;
   final KanbanStatus status;
   final String key;
@@ -143,7 +182,9 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
   const KanbanEntitie(
       {required this.createAt,
       this.dueDate,
+      this.finishedAt,
       required this.orderId,
+      this.spendedTimeSeconds,
       this.description,
       required this.status,
       required this.key,
@@ -155,7 +196,13 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
     if (!nullToAbsent || dueDate != null) {
       map['due_date'] = Variable<DateTime>(dueDate);
     }
+    if (!nullToAbsent || finishedAt != null) {
+      map['finished_at'] = Variable<DateTime>(finishedAt);
+    }
     map['order_id'] = Variable<int>(orderId);
+    if (!nullToAbsent || spendedTimeSeconds != null) {
+      map['spended_time_seconds'] = Variable<int>(spendedTimeSeconds);
+    }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
@@ -174,7 +221,13 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
       dueDate: dueDate == null && nullToAbsent
           ? const Value.absent()
           : Value(dueDate),
+      finishedAt: finishedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(finishedAt),
       orderId: Value(orderId),
+      spendedTimeSeconds: spendedTimeSeconds == null && nullToAbsent
+          ? const Value.absent()
+          : Value(spendedTimeSeconds),
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
@@ -190,7 +243,9 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
     return KanbanEntitie(
       createAt: serializer.fromJson<DateTime>(json['createAt']),
       dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
+      finishedAt: serializer.fromJson<DateTime?>(json['finishedAt']),
       orderId: serializer.fromJson<int>(json['orderId']),
+      spendedTimeSeconds: serializer.fromJson<int?>(json['spendedTimeSeconds']),
       description: serializer.fromJson<String?>(json['description']),
       status: $KanbanEntitiesTable.$converterstatus
           .fromJson(serializer.fromJson<String>(json['status'])),
@@ -204,7 +259,9 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
     return <String, dynamic>{
       'createAt': serializer.toJson<DateTime>(createAt),
       'dueDate': serializer.toJson<DateTime?>(dueDate),
+      'finishedAt': serializer.toJson<DateTime?>(finishedAt),
       'orderId': serializer.toJson<int>(orderId),
+      'spendedTimeSeconds': serializer.toJson<int?>(spendedTimeSeconds),
       'description': serializer.toJson<String?>(description),
       'status': serializer
           .toJson<String>($KanbanEntitiesTable.$converterstatus.toJson(status)),
@@ -216,7 +273,9 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
   KanbanEntitie copyWith(
           {DateTime? createAt,
           Value<DateTime?> dueDate = const Value.absent(),
+          Value<DateTime?> finishedAt = const Value.absent(),
           int? orderId,
+          Value<int?> spendedTimeSeconds = const Value.absent(),
           Value<String?> description = const Value.absent(),
           KanbanStatus? status,
           String? key,
@@ -224,7 +283,11 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
       KanbanEntitie(
         createAt: createAt ?? this.createAt,
         dueDate: dueDate.present ? dueDate.value : this.dueDate,
+        finishedAt: finishedAt.present ? finishedAt.value : this.finishedAt,
         orderId: orderId ?? this.orderId,
+        spendedTimeSeconds: spendedTimeSeconds.present
+            ? spendedTimeSeconds.value
+            : this.spendedTimeSeconds,
         description: description.present ? description.value : this.description,
         status: status ?? this.status,
         key: key ?? this.key,
@@ -235,7 +298,9 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
     return (StringBuffer('KanbanEntitie(')
           ..write('createAt: $createAt, ')
           ..write('dueDate: $dueDate, ')
+          ..write('finishedAt: $finishedAt, ')
           ..write('orderId: $orderId, ')
+          ..write('spendedTimeSeconds: $spendedTimeSeconds, ')
           ..write('description: $description, ')
           ..write('status: $status, ')
           ..write('key: $key, ')
@@ -245,15 +310,17 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(createAt, dueDate, orderId, description, status, key, name);
+  int get hashCode => Object.hash(createAt, dueDate, finishedAt, orderId,
+      spendedTimeSeconds, description, status, key, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is KanbanEntitie &&
           other.createAt == this.createAt &&
           other.dueDate == this.dueDate &&
+          other.finishedAt == this.finishedAt &&
           other.orderId == this.orderId &&
+          other.spendedTimeSeconds == this.spendedTimeSeconds &&
           other.description == this.description &&
           other.status == this.status &&
           other.key == this.key &&
@@ -263,7 +330,9 @@ class KanbanEntitie extends DataClass implements Insertable<KanbanEntitie> {
 class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
   final Value<DateTime> createAt;
   final Value<DateTime?> dueDate;
+  final Value<DateTime?> finishedAt;
   final Value<int> orderId;
+  final Value<int?> spendedTimeSeconds;
   final Value<String?> description;
   final Value<KanbanStatus> status;
   final Value<String> key;
@@ -271,7 +340,9 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
   const KanbanEntitiesCompanion({
     this.createAt = const Value.absent(),
     this.dueDate = const Value.absent(),
+    this.finishedAt = const Value.absent(),
     this.orderId = const Value.absent(),
+    this.spendedTimeSeconds = const Value.absent(),
     this.description = const Value.absent(),
     this.status = const Value.absent(),
     this.key = const Value.absent(),
@@ -280,7 +351,9 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
   KanbanEntitiesCompanion.insert({
     required DateTime createAt,
     this.dueDate = const Value.absent(),
+    this.finishedAt = const Value.absent(),
     required int orderId,
+    this.spendedTimeSeconds = const Value.absent(),
     this.description = const Value.absent(),
     required KanbanStatus status,
     required String key,
@@ -293,7 +366,9 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
   static Insertable<KanbanEntitie> custom({
     Expression<DateTime>? createAt,
     Expression<DateTime>? dueDate,
+    Expression<DateTime>? finishedAt,
     Expression<int>? orderId,
+    Expression<int>? spendedTimeSeconds,
     Expression<String>? description,
     Expression<String>? status,
     Expression<String>? key,
@@ -302,7 +377,10 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
     return RawValuesInsertable({
       if (createAt != null) 'create_at': createAt,
       if (dueDate != null) 'due_date': dueDate,
+      if (finishedAt != null) 'finished_at': finishedAt,
       if (orderId != null) 'order_id': orderId,
+      if (spendedTimeSeconds != null)
+        'spended_time_seconds': spendedTimeSeconds,
       if (description != null) 'description': description,
       if (status != null) 'status': status,
       if (key != null) 'key': key,
@@ -313,7 +391,9 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
   KanbanEntitiesCompanion copyWith(
       {Value<DateTime>? createAt,
       Value<DateTime?>? dueDate,
+      Value<DateTime?>? finishedAt,
       Value<int>? orderId,
+      Value<int?>? spendedTimeSeconds,
       Value<String?>? description,
       Value<KanbanStatus>? status,
       Value<String>? key,
@@ -321,7 +401,9 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
     return KanbanEntitiesCompanion(
       createAt: createAt ?? this.createAt,
       dueDate: dueDate ?? this.dueDate,
+      finishedAt: finishedAt ?? this.finishedAt,
       orderId: orderId ?? this.orderId,
+      spendedTimeSeconds: spendedTimeSeconds ?? this.spendedTimeSeconds,
       description: description ?? this.description,
       status: status ?? this.status,
       key: key ?? this.key,
@@ -338,8 +420,14 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
     if (dueDate.present) {
       map['due_date'] = Variable<DateTime>(dueDate.value);
     }
+    if (finishedAt.present) {
+      map['finished_at'] = Variable<DateTime>(finishedAt.value);
+    }
     if (orderId.present) {
       map['order_id'] = Variable<int>(orderId.value);
+    }
+    if (spendedTimeSeconds.present) {
+      map['spended_time_seconds'] = Variable<int>(spendedTimeSeconds.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -362,7 +450,9 @@ class KanbanEntitiesCompanion extends UpdateCompanion<KanbanEntitie> {
     return (StringBuffer('KanbanEntitiesCompanion(')
           ..write('createAt: $createAt, ')
           ..write('dueDate: $dueDate, ')
+          ..write('finishedAt: $finishedAt, ')
           ..write('orderId: $orderId, ')
+          ..write('spendedTimeSeconds: $spendedTimeSeconds, ')
           ..write('description: $description, ')
           ..write('status: $status, ')
           ..write('key: $key, ')

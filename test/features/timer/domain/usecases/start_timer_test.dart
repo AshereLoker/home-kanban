@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:home_challenge_kanban/core/error/failures.dart';
 import 'package:home_challenge_kanban/features/timer/domain/usecases/timer_usecases.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../timer_test_constants.dart';
+import '../../test_timer_constants.dart';
 import '../repository/mock/mock_timer_repository.mocks.dart';
 
 void main() {

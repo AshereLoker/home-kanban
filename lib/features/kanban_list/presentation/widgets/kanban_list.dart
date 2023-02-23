@@ -6,9 +6,11 @@ import 'package:home_challenge_kanban/core/constants/app_sizes.dart';
 import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/widgets/kanban_create_button.dart';
+import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
 
 class KanbanListWithStatus extends DragAndDropList {
   final KanbanStatus listStatus;
+
   final String title;
 
   KanbanListWithStatus({

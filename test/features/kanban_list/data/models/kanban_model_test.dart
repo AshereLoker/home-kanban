@@ -9,7 +9,7 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tKanbanModel = KanbanModel(
-    order: 0,
+    orderId: 0,
     createAt: moonLanding,
     key: 'MakeKanbanGreatAgain',
     name: 'Make Kanban Challenge',
@@ -23,7 +23,7 @@ void main() {
   });
 
   test(
-    'should return a valid model then JSON when decode is successful',
+    'should return a valid model when JSON decode is successful',
     () async {
       // arrange.
       final jsonMap =
@@ -42,9 +42,10 @@ void main() {
       final result = tKanbanModel.toJson();
       // assert.
       final expectedMap = {
-        "order": 0,
-        "createAt": "1969-07-20T20:17:39.000",
+        "orderId": 0,
+        "createAt": "1969-07-20T20:17:00.000Z",
         "dueDate": null,
+        "finishedAt": null,
         "name": "Make Kanban Challenge",
         "description": "Build simple TODO app, First",
         "key": "MakeKanbanGreatAgain",

@@ -3,14 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart'
     as _i2;
 import 'package:home_challenge_kanban/core/database/kanban_database.dart'
-    as _i3;
+    as _i4;
 import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart'
-    as _i5;
+    as _i3;
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart'
     as _i6;
 import 'package:mockito/mockito.dart' as _i1;
@@ -39,106 +39,139 @@ class _FakeIList_0<T> extends _i1.SmartFake implements _i2.IList<T> {
   String toString([bool? prettyPrint]) => super.toString();
 }
 
+class _FakeKanbanModel_1 extends _i1.SmartFake implements _i3.KanbanModel {
+  _FakeKanbanModel_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [KanbanDatabase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockKanbanDatabase extends _i1.Mock implements _i3.KanbanDatabase {
+class MockKanbanDatabase extends _i1.Mock implements _i4.KanbanDatabase {
   @override
-  _i4.Future<_i2.IList<_i5.KanbanModel>> createKanban(
+  _i5.Future<_i2.IList<_i3.KanbanModel>> createKanban(
           _i6.CreateKanbanParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #createKanban,
           [params],
         ),
-        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValue: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #createKanban,
             [params],
           ),
         )),
-        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValueForMissingStub: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #createKanban,
             [params],
           ),
         )),
-      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
+      ) as _i5.Future<_i2.IList<_i3.KanbanModel>>);
   @override
-  _i4.Future<_i2.IList<_i5.KanbanModel>> readAllKanbans() =>
+  _i5.Future<_i2.IList<_i3.KanbanModel>> readAllKanbans() =>
       (super.noSuchMethod(
         Invocation.method(
           #readAllKanbans,
           [],
         ),
-        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValue: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #readAllKanbans,
             [],
           ),
         )),
-        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValueForMissingStub: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #readAllKanbans,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
+      ) as _i5.Future<_i2.IList<_i3.KanbanModel>>);
   @override
-  _i4.Future<_i2.IList<_i5.KanbanModel>> updateKanban(
+  _i5.Future<_i3.KanbanModel> readByUniqueKey(String? key) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #readByUniqueKey,
+          [key],
+        ),
+        returnValue: _i5.Future<_i3.KanbanModel>.value(_FakeKanbanModel_1(
+          this,
+          Invocation.method(
+            #readByUniqueKey,
+            [key],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.KanbanModel>.value(_FakeKanbanModel_1(
+          this,
+          Invocation.method(
+            #readByUniqueKey,
+            [key],
+          ),
+        )),
+      ) as _i5.Future<_i3.KanbanModel>);
+  @override
+  _i5.Future<_i2.IList<_i3.KanbanModel>> updateKanban(
           _i6.UpdateKanbanParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateKanban,
           [params],
         ),
-        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValue: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #updateKanban,
             [params],
           ),
         )),
-        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValueForMissingStub: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #updateKanban,
             [params],
           ),
         )),
-      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
+      ) as _i5.Future<_i2.IList<_i3.KanbanModel>>);
   @override
-  _i4.Future<_i2.IList<_i5.KanbanModel>> deleteKanban(String? key) =>
+  _i5.Future<_i2.IList<_i3.KanbanModel>> deleteKanban(String? key) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteKanban,
           [key],
         ),
-        returnValue: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValue: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #deleteKanban,
             [key],
           ),
         )),
-        returnValueForMissingStub: _i4.Future<_i2.IList<_i5.KanbanModel>>.value(
-            _FakeIList_0<_i5.KanbanModel>(
+        returnValueForMissingStub: _i5.Future<_i2.IList<_i3.KanbanModel>>.value(
+            _FakeIList_0<_i3.KanbanModel>(
           this,
           Invocation.method(
             #deleteKanban,
             [key],
           ),
         )),
-      ) as _i4.Future<_i2.IList<_i5.KanbanModel>>);
+      ) as _i5.Future<_i2.IList<_i3.KanbanModel>>);
 }

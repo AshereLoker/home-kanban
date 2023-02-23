@@ -4,7 +4,7 @@ import 'package:home_challenge_kanban/features/timer/data/datasource/timer_local
 import 'package:home_challenge_kanban/features/timer/data/datasource/timer_local_datasource_impl.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../timer_test_constants.dart';
+import '../../test_timer_constants.dart';
 import '../timer_service/mock/mock_timer_service.mocks.dart';
 
 void main() {
@@ -26,7 +26,7 @@ void main() {
         // act.
         final call = dataSource.pauseTimer();
         // assert.
-        expect(() => call, isA<void>());
+        expect(() async => await call, isA<void>());
         verify(mockTimerService.pauseTimer());
         verifyNoMoreInteractions(mockTimerService);
       },
@@ -41,7 +41,7 @@ void main() {
         final call = dataSource.pauseTimer();
         // assert.
         expect(
-          () => call,
+          () async => await call,
           throwsA(const TypeMatcher<LocalTimerException>()),
         );
         verify(mockTimerService.pauseTimer());
@@ -72,10 +72,10 @@ void main() {
         // arrange.
         when(mockTimerService.startTimer(any)).thenThrow(LocalTimerException());
         // act.
-        final call = dataSource.startTimer;
+        final call = dataSource.startTimer(tStartTimerParams);
         // assert.
         expect(
-          () => call(tStartTimerParams),
+          () async => await call,
           throwsA(const TypeMatcher<LocalTimerException>()),
         );
         verify(mockTimerService.startTimer(tStartTimerParams));
@@ -94,7 +94,7 @@ void main() {
         // act.
         final call = dataSource.stopTimer();
         // assert.
-        expect(() => call, isA<void>());
+        expect(() async => await call, isA<void>());
         verify(mockTimerService.stopTimer());
         verifyNoMoreInteractions(mockTimerService);
       },
@@ -109,7 +109,7 @@ void main() {
         final call = dataSource.stopTimer();
         // assert.
         expect(
-          () => call,
+          () async => await call,
           throwsA(const TypeMatcher<LocalTimerException>()),
         );
         verify(mockTimerService.stopTimer());

@@ -58,4 +58,5 @@ class TimeMillisecondsConverter {
   // Hours.
   static String stringifyHoursFromMilliseconds(int milliseconds) =>
       getHours(milliseconds).toString().padLeft(2, '0');
+
 }

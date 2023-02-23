@@ -8,7 +8,7 @@ import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/ka
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 
-import '../../features/kanban_list/kanban_test_constantst.dart';
+import '../../features/kanban_list/test_kanban_constantst.dart';
 
 void main() {
   late DriftDatabaseImpl databaseImpl;
@@ -83,7 +83,7 @@ void main() {
               name: 'test2',
               status: KanbanStatus.todo,
               createAt: kanban.first.createAt,
-              order: 0,
+              orderId: 0,
             ),
           );
           final result = await databaseImpl.updateKanban(tUpdateParams);

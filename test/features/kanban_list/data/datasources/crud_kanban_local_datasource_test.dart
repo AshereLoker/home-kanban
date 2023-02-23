@@ -7,7 +7,7 @@ import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/ka
 import 'package:mockito/mockito.dart';
 
 import '../../../../core/database/mock/mock_kanban_database.mocks.dart';
-import '../../kanban_test_constantst.dart';
+import '../../test_kanban_constantst.dart';
 
 void main() {
   late CrudKanbanLocalDatasource dataSource;
@@ -15,7 +15,7 @@ void main() {
 
   setUp(() {
     mockDatabase = MockKanbanDatabase();
-    dataSource = CrudKanbanLocalDatasourceImpl(localDatabase: mockDatabase);
+    dataSource = CrudKanbanLocalDatasourceImpl(database: mockDatabase);
   });
 
   group('createKanban', () {
@@ -39,13 +39,13 @@ void main() {
       () async {
         // arrange.
         when(mockDatabase.createKanban(any))
-            .thenThrow(LocalDatabaseException());
+            .thenThrow(LocalKanbanDatasourceException());
         // act.
         final call = dataSource.createKanban;
         // assert.
         expect(
           () => call(tCreateKanbanParams),
-          throwsA(const TypeMatcher<LocalDatabaseException>()),
+          throwsA(const TypeMatcher<LocalKanbanDatasourceException>()),
         );
         verify(mockDatabase.createKanban(tCreateKanbanParams));
         verifyNoMoreInteractions(mockDatabase);
@@ -74,13 +74,13 @@ void main() {
       () async {
         // arrange.
         when(mockDatabase.deleteKanban(any))
-            .thenThrow(LocalDatabaseException());
+            .thenThrow(LocalKanbanDatasourceException());
         // act.
         final call = mockDatabase.deleteKanban;
         // assert.
         expect(
           () => call(tKey),
-          throwsA(const TypeMatcher<LocalDatabaseException>()),
+          throwsA(const TypeMatcher<LocalKanbanDatasourceException>()),
         );
         verify(mockDatabase.deleteKanban(tKey));
         verifyNoMoreInteractions(mockDatabase);
@@ -125,13 +125,14 @@ void main() {
       'should throw an Exception when read all in database is unsuccessful',
       () async {
         // arrange.
-        when(mockDatabase.readAllKanbans()).thenThrow(LocalDatabaseException());
+        when(mockDatabase.readAllKanbans())
+            .thenThrow(LocalKanbanDatasourceException());
         // act.
         final call = mockDatabase.readAllKanbans;
         // assert.
         expect(
           () => call(),
-          throwsA(const TypeMatcher<LocalDatabaseException>()),
+          throwsA(const TypeMatcher<LocalKanbanDatasourceException>()),
         );
         verify(mockDatabase.readAllKanbans());
         verifyNoMoreInteractions(mockDatabase);
@@ -160,13 +161,13 @@ void main() {
       () async {
         // arrange.
         when(mockDatabase.updateKanban(any))
-            .thenThrow(LocalDatabaseException());
+            .thenThrow(LocalKanbanDatasourceException());
         // act.
         final call = mockDatabase.updateKanban;
         // assert.
         expect(
           () => call(tUpdateKanbanParams),
-          throwsA(const TypeMatcher<LocalDatabaseException>()),
+          throwsA(const TypeMatcher<LocalKanbanDatasourceException>()),
         );
         verify(mockDatabase.updateKanban(tUpdateKanbanParams));
         verifyNoMoreInteractions(mockDatabase);

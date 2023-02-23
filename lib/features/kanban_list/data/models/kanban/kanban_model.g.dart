@@ -11,11 +11,14 @@ KanbanModel _$KanbanModelFromJson(Map<String, dynamic> json) => KanbanModel(
       status: $enumDecode(_$KanbanStatusEnumMap, json['status']),
       key: json['key'] as String,
       name: json['name'] as String,
-      order: json['order'] as int,
+      orderId: json['orderId'] as int,
       dueDate: json['dueDate'] == null
           ? null
           : DateTime.parse(json['dueDate'] as String),
       description: json['description'] as String?,
+      finishedAt: json['finishedAt'] == null
+          ? null
+          : DateTime.parse(json['finishedAt'] as String),
     );
 
 Map<String, dynamic> _$KanbanModelToJson(KanbanModel instance) =>
@@ -23,7 +26,8 @@ Map<String, dynamic> _$KanbanModelToJson(KanbanModel instance) =>
       'createAt': instance.createAt.toIso8601String(),
       'dueDate': instance.dueDate?.toIso8601String(),
       'description': instance.description,
-      'order': instance.order,
+      'finishedAt': instance.finishedAt?.toIso8601String(),
+      'orderId': instance.orderId,
       'name': instance.name,
       'key': instance.key,
       'status': _$KanbanStatusEnumMap[instance.status]!,

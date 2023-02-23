@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home_challenge_kanban/features/export_kanban/presentation/bloc/export_kanban_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/pages/kanbans_page.dart';
 import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
 import 'package:home_challenge_kanban/injection_container.dart' as di;
 import 'package:home_challenge_kanban/injection_container.dart';
+
 import 'package:sizer/sizer.dart';
+import 'package:sqlite3/open.dart';
+
+import 'package:sqlcipher_flutter_libs/sqlcipher_flutter_libs.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  open.overrideFor(OperatingSystem.android, openCipherOnAndroid);
 
   di.init();
   runApp(const MainApp());
@@ -67,6 +73,9 @@ class MainApp extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => sl<TimerBloc>(),
+              ),
+              BlocProvider(
+                create: (context) => sl<ExportKanbanBloc>(),
               ),
             ],
             child: KanbansPage(),
