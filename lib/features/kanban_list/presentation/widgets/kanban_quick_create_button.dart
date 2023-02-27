@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_challenge_kanban/core/assets/kanban_assets.g.dart';
-import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
+import 'package:home_challenge_kanban/core/constants/app_sizes.dart';
+import 'package:home_challenge_kanban/core/ui/widgets/svg_asset_picture.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 import 'package:home_challenge_kanban/features/kanban_list/presentation/bloc/kanbans_bloc.dart';
 
-class KanbanCreateButton extends StatefulWidget {
+class KanbanQuickCreateButton extends StatefulWidget {
   final int order;
   final KanbanStatus? status;
-  const KanbanCreateButton({
+  const KanbanQuickCreateButton({
     super.key,
     required this.order,
     this.status,
   });
 
   @override
-  State<KanbanCreateButton> createState() => _KanbanCreateButtonState();
+  State<KanbanQuickCreateButton> createState() =>
+      _KanbanQuickCreateButtonState();
 }
 
-class _KanbanCreateButtonState extends State<KanbanCreateButton> {
+class _KanbanQuickCreateButtonState extends State<KanbanQuickCreateButton> {
   final ValueNotifier<bool> showTextField = ValueNotifier(false);
   final ValueNotifier<String> kanbanName = ValueNotifier('');
 
@@ -83,36 +85,60 @@ class _KanbanCreateTextField extends StatelessWidget {
   final ValueNotifier<bool> showTextField;
 
   @override
-  Widget build(BuildContext context) => Flex(
-        direction: Axis.horizontal,
-        children: [
-          Flexible(
-            flex: 3,
-            child: TextField(
-              onChanged: (value) => kanbanName.value = value,
+  Widget build(BuildContext context) => Container(
+        constraints: _cardConstarint(),
+        decoration: _cardDecoration(context),
+        padding: _cardPaddings(),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                onChanged: (change) => kanbanName.value = change,
+                scrollPadding: EdgeInsets.zero,
+                textAlignVertical: TextAlignVertical.top,
+                decoration: InputDecoration.collapsed(
+                  border: InputBorder.none,
+                  hintText: 'Write name...',
+                ),
+                maxLines: null,
+              ),
             ),
-          ),
-          Flexible(
-            child: IconButton(
+            IconButton(
               onPressed: () => _createKanban(context),
-              icon: KanbanAppSvgAssetPicture(
+              icon: SvgAssetPicture(
                 assetName: KanbanAssets.ASSETS_SVG_IC_CHECK_SVG,
                 size: 18,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-          ),
-          Flexible(
-            child: IconButton(
+            IconButton(
               onPressed: () => _clearContent(),
-              icon: KanbanAppSvgAssetPicture(
+              icon: SvgAssetPicture(
                 assetName: KanbanAssets.ASSETS_SVG_IC_CLOSE_SVG,
                 size: 16,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+      );
+
+  BoxConstraints _cardConstarint() => const BoxConstraints(
+        minHeight: AppSize.cardMinimumHeight,
+        minWidth: double.infinity,
+      );
+
+  BoxDecoration _cardDecoration(BuildContext context) => BoxDecoration(
+        borderRadius: const BorderRadius.all(AppSize.bottomBarRadiusWidget),
+        color: Theme.of(context).colorScheme.background,
+      );
+
+  EdgeInsets _cardPaddings() => const EdgeInsets.symmetric(
+        horizontal: AppSize.commonHorizontalPadding / 2,
+      );
+
+  EdgeInsets _cardMargin() => const EdgeInsets.all(
+        AppSize.commonVerticalPadding,
       );
 
   void _clearContent() {
@@ -126,6 +152,7 @@ class _KanbanCreateTextField extends StatelessWidget {
             status: status ?? KanbanStatus.todo,
             name: kanbanName.value,
             order: order,
+            spendedTimeSeconds: 0,
           ),
         ));
     _clearContent();

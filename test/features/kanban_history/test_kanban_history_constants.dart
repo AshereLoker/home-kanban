@@ -17,6 +17,7 @@ final tKanbanModel = KanbanModel(
   key: tKey,
   name: tName,
   orderId: tOrderId,
+  spendedTimeSeconds: 0,
 );
 final Kanban tKanban = tKanbanModel;
 final tKanbanHistoryFullfilList = IListConst([tKanban]);

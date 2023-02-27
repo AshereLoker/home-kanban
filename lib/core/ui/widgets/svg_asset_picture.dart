@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class KanbanAppSvgAssetPicture extends StatelessWidget {
+class SvgAssetPicture extends StatelessWidget {
   final String assetName;
   final Color? color;
   final double? size;
 
-  const KanbanAppSvgAssetPicture({
+  const SvgAssetPicture({
     super.key,
     required this.assetName,
     this.color,

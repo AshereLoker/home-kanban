@@ -13,6 +13,7 @@ class AppSize {
   static const double cardMinimumHeight = 60;
   static const double sizeIcon = 16;
   static const double radiusIcon = 6;
+  static const Radius bottomBarRadiusWidget = Radius.circular(16);
 
   // Often used spaces.
   static const sizedBoxH4 = SizedBox(height: 4);

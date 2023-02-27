@@ -1,14 +1,10 @@
 // ignore_for_file: void_checks
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:home_challenge_kanban/core/database/drift/drift_database_impl.dart';
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/features/export_kanban/data/datasources/export_kanban_local_datasource.dart';
 import 'package:home_challenge_kanban/features/export_kanban/data/datasources/export_kanban_local_datasource_impl.dart';
 import 'package:home_challenge_kanban/features/export_kanban/data/mapping/kanban_to_export_mapper.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:home_challenge_kanban/features/kanban_list/data/models/kanban/kanban_model.dart';
-import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
 
 import 'package:mockito/mockito.dart';
 

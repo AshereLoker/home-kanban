@@ -22,19 +22,28 @@ class CreateKanbanParams extends Equatable {
   final String? description;
   final DateTime? dueDate;
   final int order;
+  final int spendedTimeSeconds;
   final KanbanStatus status;
   final String name;
 
   const CreateKanbanParams({
     required this.status,
     required this.name,
+    required this.spendedTimeSeconds,
     required this.order,
     this.description,
     this.dueDate,
   });
 
   @override
-  List<Object?> get props => [name, description, status, dueDate, order];
+  List<Object?> get props => [
+        name,
+        description,
+        status,
+        dueDate,
+        order,
+        spendedTimeSeconds,
+      ];
 
   @override
   bool? get stringify => true;

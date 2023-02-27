@@ -12,7 +12,6 @@ import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanba
 import 'package:home_challenge_kanban/features/kanban_list/domain/usecases/kanban_usecases.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 part 'drift_database_impl.g.dart';
@@ -22,7 +21,7 @@ class KanbanEntities extends Table {
   DateTimeColumn get dueDate => dateTime().nullable()();
   DateTimeColumn get finishedAt => dateTime().nullable()();
   IntColumn get orderId => integer()();
-  IntColumn get spendedTimeSeconds => integer().nullable()();
+  IntColumn get spendedTimeSeconds => integer()();
   TextColumn get description => text().named('description').nullable()();
   TextColumn get status => textEnum<KanbanStatus>()();
   TextColumn get key => text()();
@@ -58,6 +57,7 @@ class DriftDatabaseImpl extends _$DriftDatabaseImpl implements KanbanDatabase {
           status: params.status,
           key: uuidKey,
           name: params.name,
+          spendedTimeSeconds: params.spendedTimeSeconds,
         ),
       );
 

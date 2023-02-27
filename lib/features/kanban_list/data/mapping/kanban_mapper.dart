@@ -11,6 +11,7 @@ extension KanbanEntitieMapper on KanbanEntitie {
         status: status,
         name: name,
         key: key,
+        spendedTimeSeconds: spendedTimeSeconds,
       );
 }
 
@@ -23,6 +24,7 @@ extension KanbanModelMapper on KanbanModel {
         status: status,
         key: key,
         name: name,
+        spendedTimeSeconds: spendedTimeSeconds,
       );
 
   KanbanEntitie toKanbanEntitie() => KanbanEntitie(
@@ -33,6 +35,7 @@ extension KanbanModelMapper on KanbanModel {
         status: status,
         name: name,
         key: key,
+        spendedTimeSeconds: spendedTimeSeconds,
       );
 }
 
@@ -45,5 +48,6 @@ extension KanbanMapper on Kanban {
         description: description,
         key: key,
         name: name,
+        spendedTimeSeconds: spendedTimeSeconds,
       );
 }

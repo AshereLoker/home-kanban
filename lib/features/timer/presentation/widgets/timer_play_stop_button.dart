@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_challenge_kanban/core/assets/kanban_assets.g.dart';
-import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
+import 'package:home_challenge_kanban/core/ui/widgets/circle_button_with_shadow.dart';
+import 'package:home_challenge_kanban/core/ui/widgets/svg_asset_picture.dart';
 import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
 
-class TimerPlayStopButton extends StatelessWidget {
+enum PlayButtonMode { pause, stop }
+
+class TimerPlayButton extends StatelessWidget {
   final String widgetKey;
   final void Function(BuildContext)? onStart;
-  final void Function(BuildContext)? onStop;
+  final void Function(BuildContext)? onStopPause;
   final double buttonSize;
   final double iconSize;
+  final double innerButtonPadding;
+  final PlayButtonMode buttonMode;
 
-  const TimerPlayStopButton({
+  const TimerPlayButton({
     super.key,
     required this.widgetKey,
     required this.buttonSize,
     required this.iconSize,
+    required this.innerButtonPadding,
+    required this.buttonMode,
     this.onStart,
-    this.onStop,
+    this.onStopPause,
   });
 
   @override
@@ -32,7 +39,7 @@ class TimerPlayStopButton extends StatelessWidget {
           isGoing: (_, activeWidget) => widgetKey == activeWidget
               ? _buildButton(
                   context,
-                  KanbanAssets.ASSETS_SVG_IC_STOP_SVG,
+                  _iconPath(buttonMode),
                   activeWidget,
                   _onStop,
                 )
@@ -40,14 +47,21 @@ class TimerPlayStopButton extends StatelessWidget {
                   context,
                   KanbanAssets.ASSETS_SVG_IC_PLAY_SVG,
                   activeWidget,
-                  null,
+                  (context) {},
                 ),
-          paused: (_, activeWidget) => _buildButton(
-            context,
-            KanbanAssets.ASSETS_SVG_IC_STOP_SVG,
-            activeWidget,
-            _onStop,
-          ),
+          paused: (_, activeWidget) => widgetKey == activeWidget
+              ? _buildButton(
+                  context,
+                  KanbanAssets.ASSETS_SVG_IC_PLAY_SVG,
+                  activeWidget,
+                  _onStart,
+                )
+              : _buildButton(
+                  context,
+                  _iconPath(buttonMode),
+                  activeWidget,
+                  _onStop,
+                ),
         ),
       );
 
@@ -55,25 +69,22 @@ class TimerPlayStopButton extends StatelessWidget {
     BuildContext context,
     String iconPath,
     String? activeWidget,
-    void Function(BuildContext)? onTap,
+    void Function(BuildContext) onTap,
   ) =>
       AbsorbPointer(
         key: UniqueKey(),
         absorbing: activeWidget != null && activeWidget != widgetKey,
-        child: ElevatedButton(
-          onPressed: () => onTap?.call(context),
-          style: ElevatedButton.styleFrom(
-            shape: const CircleBorder(),
-            elevation: 0,
-            fixedSize: Size.fromRadius(buttonSize),
-            backgroundColor: activeWidget == null || activeWidget == widgetKey
-                ? Colors.red.shade600.withOpacity(0.5)
-                : Colors.white.withOpacity(0.1),
-          ),
-          child: KanbanAppSvgAssetPicture(
+        child: CircleButtonWithShadow(
+          buttonRadius: buttonSize,
+          innerPadding: innerButtonPadding,
+          onTap: (context) => onTap(context),
+          buttonColor: activeWidget == null || activeWidget == widgetKey
+              ? Colors.red
+              : Colors.white60,
+          child: SvgAssetPicture(
             assetName: iconPath,
-            color: Colors.white,
             size: iconSize,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       );
@@ -89,7 +100,27 @@ class TimerPlayStopButton extends StatelessWidget {
   }
 
   void _onStop(BuildContext context) {
-    context.read<TimerBloc>().add(const TimerEvent.stopTimer());
-    onStop?.call(context);
+    context.read<TimerBloc>().add(_eventFromButtonState(buttonMode));
+    onStopPause?.call(context);
+  }
+
+  String _iconPath(PlayButtonMode mode) {
+    switch (mode) {
+      case PlayButtonMode.pause:
+        return KanbanAssets.ASSETS_SVG_IC_PAUSE_SVG;
+
+      case PlayButtonMode.stop:
+        return KanbanAssets.ASSETS_SVG_IC_STOP_SVG;
+    }
+  }
+
+  TimerEvent _eventFromButtonState(PlayButtonMode mode) {
+    switch (mode) {
+      case PlayButtonMode.pause:
+        return const TimerEvent.pauseTimer();
+
+      case PlayButtonMode.stop:
+        return const TimerEvent.stopTimer();
+    }
   }
 }

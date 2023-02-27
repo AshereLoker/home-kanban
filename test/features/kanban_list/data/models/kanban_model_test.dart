@@ -15,6 +15,7 @@ void main() {
     name: 'Make Kanban Challenge',
     description: 'Build simple TODO app, First',
     status: KanbanStatus.todo,
+    spendedTimeSeconds: 0,
   );
 
   test('should KanbanModel be a subclass of Kanban', () {
@@ -43,6 +44,7 @@ void main() {
       // assert.
       final expectedMap = {
         "orderId": 0,
+        "spendedTimeSeconds": 0,
         "createAt": "1969-07-20T20:17:00.000Z",
         "dueDate": null,
         "finishedAt": null,

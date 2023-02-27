@@ -17,12 +17,10 @@ extension KanbanExportMapper on KanbanModel {
         finishedAt: finishedAt != null
             ? DateFormat.yMd('en_Us').add_jms().format(finishedAt!)
             : '-',
-        timeSpend: spendedTimeSeconds != null
-            ? UiTimeConverter.getDisplayTime(
-                TimeMillisecondsConverter.getMilliseconsFromSeconds(
-                  spendedTimeSeconds!,
-                ),
-              )
-            : '-',
+        timeSpend: UiTimeConverter.getDisplayTime(
+          TimeMillisecondsConverter.getMilliseconsFromSeconds(
+            spendedTimeSeconds,
+          ),
+        ),
       );
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:csv/csv.dart';
@@ -30,8 +29,8 @@ class CsvExportServiceImpl implements ExportService {
   Future<void> _writeCsv(String csv, [String? fileName]) async {
     final externalStorage = await getExternalStorageDirectory();
 
-    final file = File(p.join(externalStorage!.path, 'kanban-$fileName.csv'))
-      ..writeAsString(csv);
+    File(p.join(externalStorage!.path, 'kanban-$fileName.csv'))
+        .writeAsString(csv);
   }
 
   static const _csvHeader = ExportKanban(

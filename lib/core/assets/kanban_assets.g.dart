@@ -29,6 +29,8 @@ class KanbanAssets {
 
   static const String ASSETS_SVG_IC_HISTORY_SVG = 'assets/svg/ic_history.svg';
 
+  static const String ASSETS_SVG_IC_HOME_SVG = 'assets/svg/ic_home.svg';
+
   static const String ASSETS_SVG_IC_MORE_HORIZONTAL_SVG =
       'assets/svg/ic_more_horizontal.svg';
 
@@ -38,6 +40,10 @@ class KanbanAssets {
   static const String ASSETS_SVG_IC_PAUSE_SVG = 'assets/svg/ic_pause.svg';
 
   static const String ASSETS_SVG_IC_PLAY_SVG = 'assets/svg/ic_play.svg';
+
+  static const String ASSETS_SVG_IC_PLUS_SVG = 'assets/svg/ic_plus.svg';
+
+  static const String ASSETS_SVG_IC_QUICK_SVG = 'assets/svg/ic_quick.svg';
 
   static const String ASSETS_SVG_IC_STOP_SVG = 'assets/svg/ic_stop.svg';
 

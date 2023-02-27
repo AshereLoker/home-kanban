@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:home_challenge_kanban/core/error/exceptions.dart';
 import 'package:home_challenge_kanban/core/utils/time_milliseconds_converter.dart';
@@ -7,6 +8,8 @@ import 'package:home_challenge_kanban/features/timer/domain/usecases/timer_useca
 import 'package:rxdart/rxdart.dart';
 
 class StreamTimerServiceImpl implements TimerService {
+  final Stopwatch _stopwatch = Stopwatch();
+
   StreamTimerServiceImpl() {
     _timeController = BehaviorSubject.seeded(0);
   }
@@ -17,7 +20,6 @@ class StreamTimerServiceImpl implements TimerService {
   ValueStream<int> get time => _timeController;
   int? _presentTime;
   Timer? _timer;
-  int _pauseTime = 0;
 
   Future<void> dispose() async {
     if (_timer != null && _timer!.isActive) {
@@ -33,7 +35,7 @@ class StreamTimerServiceImpl implements TimerService {
 
     _timer!.cancel();
     _timer = null;
-    _pauseTime += DateTime.now().millisecondsSinceEpoch;
+    _stopwatch.stop();
   }
 
   @override
@@ -44,6 +46,7 @@ class StreamTimerServiceImpl implements TimerService {
       params.startTimeSeconds,
     );
 
+    _stopwatch.start();
     _timer = Timer.periodic(const Duration(milliseconds: 1), _tick);
 
     return Future.value(time);
@@ -56,7 +59,7 @@ class StreamTimerServiceImpl implements TimerService {
     _timer!.cancel();
     _timer = null;
 
-    _pauseTime = 0;
+    _stopwatch.reset();
     _timeController.add(_presentTime!);
   }
 
@@ -65,5 +68,5 @@ class StreamTimerServiceImpl implements TimerService {
   }
 
   int _elapsedTime(int presentTime) =>
-      DateTime.now().millisecondsSinceEpoch - _pauseTime + presentTime;
+      _stopwatch.elapsedMilliseconds + _presentTime!;
 }

@@ -22,7 +22,7 @@ const tExportKanbanModel = ExportKanbanModel(
   createAt: '2/21/1969',
   dueDate: '7/22/1969',
   finishedAt: '7/20/1969 8:17:00 PM',
-  timeSpend: '195:18:00',
+  timeSpend: '195:18:03',
 );
 
 final tUnsortedExportList = [
@@ -32,6 +32,7 @@ final tUnsortedExportList = [
     key: 'tKey',
     name: 'test1',
     orderId: 0,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -39,6 +40,7 @@ final tUnsortedExportList = [
     key: 'tKey',
     name: 'test2',
     orderId: 0,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -46,6 +48,7 @@ final tUnsortedExportList = [
     key: 'tKey',
     name: 'test2',
     orderId: 1,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -53,6 +56,7 @@ final tUnsortedExportList = [
     key: 'tKey',
     name: 'test3',
     orderId: 0,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -60,6 +64,7 @@ final tUnsortedExportList = [
     key: 'tKey',
     name: 'test4',
     orderId: 1,
+    spendedTimeSeconds: 0,
   ),
 ];
 
@@ -70,6 +75,7 @@ final tSortedExportList = [
     key: 'tKey',
     name: 'test1',
     orderId: 0,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -77,6 +83,7 @@ final tSortedExportList = [
     key: 'tKey',
     name: 'test2',
     orderId: 1,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -84,6 +91,7 @@ final tSortedExportList = [
     key: 'tKey',
     name: 'test3',
     orderId: 0,
+    spendedTimeSeconds: 0,
   ),
   KanbanModel(
     createAt: moonLanding,
@@ -91,5 +99,6 @@ final tSortedExportList = [
     key: 'tKey',
     name: 'test4',
     orderId: 1,
+    spendedTimeSeconds: 0,
   ),
 ];

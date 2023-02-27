@@ -64,7 +64,7 @@ void main() {
         finishedAt: moonLanding,
         status: KanbanStatus.done,
         // ((Days * HoursPerDay + Hours) * 60 + Minutes) * 60 + Secons
-        spendedTimeSecons: ((8 * 24 + 3) * 60 + 18) * 60 + 3,
+        spendedTimeSeconds: ((8 * 24 + 3) * 60 + 18) * 60 + 3,
         key: tKey,
         name: 'Moon landing',
         description:

@@ -2,15 +2,15 @@ import 'package:home_challenge_kanban/core/utils/time_milliseconds_converter.dar
 
 class UiTimeConverter {
   static String getDisplayTime(int milliseconds) {
-    final hours = TimeMillisecondsConverter.stringifyHoursFromMilliseconds(
-      milliseconds,
-    );
-    final minutes = TimeMillisecondsConverter.stringifyMinutesFromMilliseconds(
-      milliseconds,
-    );
-    final seconds = TimeMillisecondsConverter.stringifySecondsFromMilliseconds(
-      milliseconds,
-    );
+    final hours = TimeMillisecondsConverter.getHours(milliseconds)
+        .toString()
+        .padLeft(2, '0');
+    final minutes = TimeMillisecondsConverter.getMinutes(milliseconds)
+        .toString()
+        .padLeft(2, '0');
+    final seconds = TimeMillisecondsConverter.getSeconds(milliseconds)
+        .toString()
+        .padLeft(2, '0');
 
     return '$hours:$minutes:$seconds';
   }

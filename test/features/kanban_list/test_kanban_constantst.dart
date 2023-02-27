@@ -13,6 +13,7 @@ const tCreateKanbanParams = CreateKanbanParams(
   name: tName,
   description: tDescr,
   order: tOrderId,
+  spendedTimeSeconds: 0,
 );
 
 final tUpdateKanbanParams = UpdateKanbanParams(modelToUpdate: tKanbanModel);
@@ -24,6 +25,7 @@ final tKanbanModel = KanbanModel(
   status: KanbanStatus.todo,
   createAt: moonLanding,
   orderId: tOrderId,
+  spendedTimeSeconds: 0,
 );
 final Kanban tKanban = tKanbanModel;
 final tKanbanModelFullfilList = IListConst<KanbanModel>([tKanbanModel]);

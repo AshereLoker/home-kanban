@@ -19,8 +19,20 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     required this.startTimer,
     required this.stopTimer,
   }) : super(const TimerState.notStarted()) {
+    on<_PauseTimer>(_onPauseTimer);
     on<_StartTimer>(_onStartTimer);
     on<_StopTimer>(_onStopTimer);
+  }
+
+  Future<void> _onPauseTimer(_PauseTimer event, _Emit emit) async {
+    final oldStateData = state as _IsGoing;
+    await pauseTimer.call(NoParams());
+    emit(
+      TimerState.paused(
+        elapsingTimeStream: oldStateData.elapsingTimeStream,
+        widgetKey: oldStateData.widgetKey,
+      ),
+    );
   }
 
   Future<void> _onStartTimer(_StartTimer event, _Emit emit) async {

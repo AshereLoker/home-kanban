@@ -12,6 +12,7 @@ KanbanModel _$KanbanModelFromJson(Map<String, dynamic> json) => KanbanModel(
       key: json['key'] as String,
       name: json['name'] as String,
       orderId: json['orderId'] as int,
+      spendedTimeSeconds: json['spendedTimeSeconds'] as int,
       dueDate: json['dueDate'] == null
           ? null
           : DateTime.parse(json['dueDate'] as String),
@@ -31,6 +32,7 @@ Map<String, dynamic> _$KanbanModelToJson(KanbanModel instance) =>
       'name': instance.name,
       'key': instance.key,
       'status': _$KanbanStatusEnumMap[instance.status]!,
+      'spendedTimeSeconds': instance.spendedTimeSeconds,
     };
 
 const _$KanbanStatusEnumMap = {

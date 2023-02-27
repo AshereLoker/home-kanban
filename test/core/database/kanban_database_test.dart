@@ -84,6 +84,7 @@ void main() {
               status: KanbanStatus.todo,
               createAt: kanban.first.createAt,
               orderId: 0,
+              spendedTimeSeconds: 0,
             ),
           );
           final result = await databaseImpl.updateKanban(tUpdateParams);

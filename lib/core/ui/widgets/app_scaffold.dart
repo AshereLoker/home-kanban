@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class KanbanAppScaffold extends StatelessWidget {
+class AppScaffold extends StatelessWidget {
   final AppBar? appBar;
   final Color? backgroundColor;
   final Widget body;
@@ -13,7 +13,7 @@ class KanbanAppScaffold extends StatelessWidget {
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final Widget? bottomNavigationBar;
 
-  const KanbanAppScaffold({
+  const AppScaffold({
     super.key,
     this.appBar,
     this.backgroundColor,
@@ -34,6 +34,7 @@ class KanbanAppScaffold extends StatelessWidget {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       appBar: appBar,
       extendBody: extendsBodyBehindBottomBar,
@@ -41,7 +42,13 @@ class KanbanAppScaffold extends StatelessWidget {
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,
       bottomNavigationBar: bottomNavigationBar,
-      body: SafeArea(child: body),
+      body: SafeArea(
+        left: safeAreaLeft,
+        top: safeAreaTop,
+        right: safeAreaRight,
+        bottom: safeAreaBottom,
+        child: body,
+      ),
     );
   }
 }

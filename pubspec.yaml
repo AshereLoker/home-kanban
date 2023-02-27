@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   # Local DataBase.
+
   csv: ^5.0.1
   drag_and_drop_lists: ^0.3.3
   drift: ^2.5.0
@@ -23,7 +24,6 @@ dependencies:
   # State manager. 
   flutter_bloc: ^8.1.2
   # Dependency injection.
-  flutter_hooks: ^0.18.6
   flutter_svg: ^2.0.1
   freezed_annotation: ^2.2.0
   get_it: ^7.2.0

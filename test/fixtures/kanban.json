@@ -4,5 +4,6 @@
     "name": "Make Kanban Challenge",
     "description": "Build simple TODO app, First",
     "key": "MakeKanbanGreatAgain",
-    "status": "todo"
+    "status": "todo",
+    "spendedTimeSeconds": 0
 }

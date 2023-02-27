@@ -13,10 +13,10 @@ class KanbanModel extends Kanban {
     required String key,
     required String name,
     required int orderId,
+    required int spendedTimeSeconds,
     DateTime? dueDate,
     String? description,
     DateTime? finishedAt,
-    int? spendedTimeSecons,
   }) : super(
           createAt: createAt,
           dueDate: dueDate,
@@ -25,7 +25,7 @@ class KanbanModel extends Kanban {
           name: name,
           orderId: orderId,
           key: key,
-          spendedTimeSeconds: spendedTimeSecons,
+          spendedTimeSeconds: spendedTimeSeconds,
           status: status,
         );
 

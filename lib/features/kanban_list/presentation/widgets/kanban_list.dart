@@ -3,10 +3,9 @@ import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
 import 'package:flutter/material.dart';
 import 'package:home_challenge_kanban/core/assets/kanban_assets.g.dart';
 import 'package:home_challenge_kanban/core/constants/app_sizes.dart';
-import 'package:home_challenge_kanban/core/ui/widgets/kanban_app_svg_images.dart';
+import 'package:home_challenge_kanban/core/ui/widgets/svg_asset_picture.dart';
 import 'package:home_challenge_kanban/features/kanban_list/domain/entities/kanban.dart';
-import 'package:home_challenge_kanban/features/kanban_list/presentation/widgets/kanban_create_button.dart';
-import 'package:home_challenge_kanban/features/timer/presentation/bloc/timer_bloc.dart';
+import 'package:home_challenge_kanban/features/kanban_list/presentation/widgets/kanban_quick_create_button.dart';
 
 class KanbanListWithStatus extends DragAndDropList {
   final KanbanStatus listStatus;
@@ -45,8 +44,8 @@ class _KanbanListHeader extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
-            topLeft: AppSize.commonRadiusWidget,
-            topRight: AppSize.commonRadiusWidget,
+            topLeft: AppSize.bottomBarRadiusWidget,
+            topRight: AppSize.bottomBarRadiusWidget,
           ),
         ),
         child: Padding(
@@ -68,7 +67,7 @@ class _KanbanListHeader extends StatelessWidget {
               AppSize.sizedBoxH8,
               Row(
                 children: [
-                  KanbanAppSvgAssetPicture(
+                  SvgAssetPicture(
                     assetName: KanbanAssets.ASSETS_SVG_IC_TASKS_SVG,
                     size: 18,
                     color: Theme.of(context).colorScheme.onSurface,
@@ -76,7 +75,7 @@ class _KanbanListHeader extends StatelessWidget {
                   AppSize.sizedBoxW8,
                   Text('- $kanbansCount', style: textSubtitleText20Light),
                   AppSize.sizedBoxW24,
-                  KanbanAppSvgAssetPicture(
+                  SvgAssetPicture(
                     assetName: KanbanAssets.ASSETS_SVG_IC_EXPIRED_TASKS_SVG,
                     size: 20,
                     color: Theme.of(context).colorScheme.onSurface,
@@ -114,12 +113,13 @@ class _KanbanListFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 40,
+        height: 60,
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: AppSize.commonHorizontalPadding / 2,
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSize.commonVerticalPadding / 2,
+            horizontal: AppSize.commonHorizontalPadding / 4,
           ),
-          child: KanbanCreateButton(
+          child: KanbanQuickCreateButton(
             key: UniqueKey(),
             status: listStatus,
             order: order,

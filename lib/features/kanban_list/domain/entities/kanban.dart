@@ -11,7 +11,7 @@ class Kanban extends Equatable {
   final String name;
   final String key;
   final KanbanStatus status;
-  final int? spendedTimeSeconds;
+  final int spendedTimeSeconds;
 
   const Kanban({
     required this.createAt,
@@ -22,7 +22,7 @@ class Kanban extends Equatable {
     this.description,
     this.dueDate,
     this.finishedAt,
-    this.spendedTimeSeconds,
+    this.spendedTimeSeconds = 0,
   });
 
   Kanban copyWith({
